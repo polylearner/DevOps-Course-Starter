@@ -8,14 +8,18 @@ The project uses poetry for Python to create an isolated environment and manage 
 
 The following must be done before running the Flask App. 
 
-Create a text file, trello_secrets.txt, that must have the following:
+Amend the .env that must have the following:
 ```
-key=<Trello API key>
-token=<Trello API token>
+TRELLO_KEY=<Trello API key>
+TRELLO_TOKEN=<Trello API token>
+TRELLO_BOARD_ID = '<id>'
+USE_VCR = 'False'
 ``` 
-The file must reside in the ```todo_app``` folder.
+The file must exists in the project folder level.
 
-At your Trello, create two boards, 'Not Started'  and 'Completed'.  You will need to use Postman to obtain the board's id.  This id needs to be placed in an constant, ```TRELLO_BOARD_ID``` from the constants file ```todo_app\data\trello_constants.py```
+Note on `USE_VCR` - this is a string flag ('True' or 'False') allowing VCR py to record HTTP requests and responses from Trello API.  Set this to 'True' only when you need to capture them.  VCR will write several 'cassette' in the tests\vcr_cassettes folder.  You will need to do this before running the PyTest class, `test_trello_data_with_vcr.py`.
+
+At your Trello workspace, create three boards, 'To Do', 'Doing'  and 'Done'.  You will need to use Postman to obtain the board's id.  This id needs to be placed in an constant, ```TRELLO_BOARD_ID``` from the constants file ```todo_app\data\trello_constants.py```
 
 ### Poetry installation (Bash)
 
