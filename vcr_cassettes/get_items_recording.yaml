@@ -1,0 +1,120 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.24.0
+    method: GET
+    uri: https://api.trello.com/1/boards/5f6456f8fc414517ed9b0e41/cards?key=0d135d0e2ed9c1f634e84d2553a8d7dc&token=32235d5fb6a7dc7cc853d1fc25094c8f8d63d347a13cb6e6f03f6d67aa08267e
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAEA+1ZbW/bNhD+K4E+xxbfRelb42RYsWTYGrdbV/QDRVK2ZllyJDmJE/S/9yhZrtp1
+        HRA7cwwYMGDJJk/Hu+d5dDx+ePRS40UeT6RGKLEisJxTrJKAYWm19U49PbV69rq28+ta1bbyonyZ
+        ZfBzVlQWpiYqq+ypZ+C/S1XVr3Sd3qb1CmwSRNAAw0eOkYyYiDgbcor+ApvGVhpGrK/OVa06s2Zp
+        39h5mhtbdj+l5qxQZeulYFwkMtEMM44Da8IYWYbBTmou06puVtKOCZCWoUWEG6bjQMpmzJWdx7as
+        3hW1c/3DRzfvelqUMJESd/OqrpWezm1ej4rbvguXKrYZLN7Nmat8qbJmwJfxm0jkam7BDwhVfVIt
+        c6NWJwQevihgNsEkDOFBlXvmZZrPYODk4k9+Id9cOQersZ0vMgjlxlqszMQF/dFTG9eqs9V4tYAx
+        j15d2iwr3FXcxghBZppgoU+fTr2s0KpOi3xj7hZWDtZg1G1q79J80kZkHZB1LqtlXOkyjXvpTYpJ
+        vJw8tDnbIKK19OV25KDiZjkvOthUF6rMUojG+RJcXoOnmLsYt/N7C2tmOnCU6eIrvwEW3Vy4HBUQ
+        JduLUlUrl0NnHFb9vRE9A6lp/MwAL+BAC4I1MNrbrJfrJlNvywxWPq3rRRX5fhvzoS7mvvZ72es5
+        ARn+ZwyX/23Fp2TggDNogTNwwNEtEB1R+2jrApkVPaK8XWSFMtacKT2blAWgr4talT5ABL28KOcq
+        A6txmU6mdW4rCIGXuWsPALNRgzAwRMaMScwtUTKxscFcO2+6tD5VDUgwRkHEOXyGAXmxasB2qwZj
+        pwa3ulysIIatFJCQBuJrKfj7PHm3Gt9xGHOUAiciByUFvextIQWdFZ+yVgo61OxFB2SoKNcJMbFM
+        uFJCCyp3pAN0jFmERcTkEKPw2asCGUplQXAMjzVRgmJtiW0rhx9UBUTuVgecuHcKgDETEuz3i4FR
+        ckVvVhfjowKsi4ODUoBe9rZQgM6KT2SjAICF/XHfEiYCExOK4Bub0DFmhzWAHEqOXyr3w91zf7MT
+        wBIRAkVGn/yTh5+nwfTX90fyHyL5e9nbgvydFZ+EDfn3twMgCgnCmcIsEYlSNlYoDnbC/ubNT8OI
+        wJuf0BfKfkp3z/4Tp57/Wv2flwKRbHZ9pP8h0r+XvS3o31nxKW2r/+Z9u48OgFCYEoRigZXBiWWM
+        KIrDrfmPwgFhY+TK/ojiIWPs2fnf9gM5FYpzQqgKbawVciwzP6j88Y47ANdWF7k5qafQdDupixNT
+        dFpASSC+2QaMp8kynS1+OUrBIUpBL3tbSEFnxcdsUDXgGTTgGdTFoAHPfjYFKtGBiKngYchwwoNA
+        4MA1rLbeFOCgaQjwiIRDHjx/WfA0WaDQleo3YkfbHhNsGoI4FAJ9owO/3dzTn97/cX/UgUPUgV72
+        ttCBzopP0QDO1fbVDHDHg1wKYpNYJIYTYaneSTNgfTwYRDgYUvb8zYAn8h7vmPfuQKA95YGUNnuC
+        7wnAaPb7fXDz+u4oAIcoAL3sbSEAnRWf4nZPsIHN/1gBfPwMZVK63iogAAA=
+    headers:
+      Access-Control-Allow-Headers:
+      - Authorization, Accept, Content-Type
+      Access-Control-Allow-Methods:
+      - GET, PUT, POST, DELETE
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - x-rate-limit-api-key-interval-ms, x-rate-limit-api-key-max, x-rate-limit-api-key-remaining,
+        x-rate-limit-api-token-interval-ms, x-rate-limit-api-token-max, x-rate-limit-api-token-remaining
+      Cache-Control:
+      - max-age=0, must-revalidate, no-cache, no-store
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 27 Oct 2020 08:48:16 GMT
+      Expect-Ct:
+      - report-uri="https://web-security-reports.services.atlassian.com/expect-ct-report/trello-edge",
+        max-age=86400
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - globaledge-envoy
+      Set-Cookie:
+      - dsc=a8d48dcb46ea0da96dbf9b67317854cf0e404ab7a1e8dd28c2b3146202a49556; Path=/;
+        Expires=Fri, 30 Oct 2020 08:48:16 GMT; Secure
+      Strict-Transport-Security:
+      - max-age=63072000; preload
+      Surrogate-Control:
+      - no-store
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Dns-Prefetch-Control:
+      - 'off'
+      X-Download-Options:
+      - noopen
+      X-Envoy-Upstream-Service-Time:
+      - '131'
+      X-Frame-Options:
+      - DENY
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Rate-Limit-Api-Key-Interval-Ms:
+      - '10000'
+      X-Rate-Limit-Api-Key-Max:
+      - '300'
+      X-Rate-Limit-Api-Key-Remaining:
+      - '299'
+      X-Rate-Limit-Api-Token-Interval-Ms:
+      - '10000'
+      X-Rate-Limit-Api-Token-Max:
+      - '100'
+      X-Rate-Limit-Api-Token-Remaining:
+      - '99'
+      X-Rate-Limit-Member-Interval-Ms:
+      - '10000'
+      X-Rate-Limit-Member-Max:
+      - '200'
+      X-Rate-Limit-Member-Remaining:
+      - '199'
+      X-Server-Time:
+      - '1603788496453'
+      X-Trello-Actual-Fastget-Path:
+      - fast
+      X-Trello-Environment:
+      - Production
+      X-Trello-Version:
+      - 1.2267.0
+      X-Xss-Protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

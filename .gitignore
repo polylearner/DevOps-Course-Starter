@@ -122,3 +122,14 @@ todo_app/trello_secrets.txt
 todo_app/data/trello_secrets.txt
 .vscode/launch.json
 geckodriver.log
+tests/vcr_cassettes/add_itemrecording.yaml
+tests/vcr_cassettes/get_itemsrecording.yaml
+tests/vcr_cassettes/get_listsrecording.yaml
+tests/vcr_cassettes/remove_itemrecording.yaml
+tests/vcr_cassettes/savve_itemrecording.yaml
+tests/vcr_cassettes/add_item_recording.yaml
+tests/vcr_cassettes/get_items_recording.yaml
+tests/vcr_cassettes/get_lists_recording.yaml
+tests/vcr_cassettes/remove_item_recording.yaml
+tests/vcr_cassettes/savve_item_recording.yaml
+vcr_cassettes/get_lists_recording.yaml
