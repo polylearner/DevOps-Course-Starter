@@ -2,6 +2,7 @@ import vcr
 import json
 import os, requests
 from todo_app.data.trello_constants import TRELLO_API_URL
+import todo_app.data.trello_items as trello_items
 
 def get_auth_params():
     return { 'key': os.getenv('TRELLO_KEY'), 
@@ -37,3 +38,22 @@ def test_getItems():
             responseText =  response.text
             raw_lists = (json.loads(responseText.encode('utf8'))) 
             assert len(raw_lists) > 0
+
+def test_get_lists_from_trello():
+    service = trello_items.Trello_service()
+    service.initiate()
+    with vcr.use_cassette('vcr_cassettes/get_lists_recording.yaml'):
+        service.get_lists()
+        listId = service.get_list_id('To Do')
+        assert listId != None
+    
+def test_get_items_from_trello():
+    service = trello_items.Trello_service()
+    service.initiate()
+    with vcr.use_cassette('vcr_cassettes/get_lists_recording.yaml'):
+        service.get_lists()
+        
+    with vcr.use_cassette('vcr_cassettes/get_items_recording.yaml'):
+        items = service.get_items()
+        assert len(items) > 0
+

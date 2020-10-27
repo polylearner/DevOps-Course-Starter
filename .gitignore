@@ -133,3 +133,4 @@ tests/vcr_cassettes/get_lists_recording.yaml
 tests/vcr_cassettes/remove_item_recording.yaml
 tests/vcr_cassettes/savve_item_recording.yaml
 vcr_cassettes/get_lists_recording.yaml
+tests/vcr_cassettes/save_item_recording.yaml

@@ -113,7 +113,7 @@ class Trello_service(object):
             item: The item to save.
         """
         url = f"{constants.TRELLO_API_URL}cards/{item.id}?{self.TRELLO_CREDENTIALS}&idList={item.listId}"
-        sendRequest(self.USE_VCR, "PUT", url, 'savve_item')
+        sendRequest(self.USE_VCR, "PUT", url, 'save_item')
         self.get_items_from_trello()
 
     def remove_item(self, id):
