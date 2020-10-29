@@ -18,12 +18,15 @@
             <h2>Items</h2>
             <a class="ml-3" href="/?sort=asc">Sort by status (ascending)</a>
             <a class="ml-3" href="/?sort=desc">Sort by status (descending)</a>
+            <h4>To Do</h4>
             <ul class="list-group mb-4">
                 {% include "todo_list.html" %}
             </ul>
+            <h4>Doing</h4>
             <ul class="list-group mb-4">
                 {% include "doing_list.html" %}
             </ul>
+            <h4>Done</h4>
             <ul class="list-group mb-4">
                 {% include "done_list.html" %}
             </ul>
