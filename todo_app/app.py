@@ -1,4 +1,3 @@
-from todo_app.app_config import Config
 from todo_app.viewmodel import ViewModel
 from flask import Flask, render_template, request, redirect, url_for
 
@@ -8,7 +7,6 @@ import todo_app.data.trello_constants as constants
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config())
 
     with app.app_context():
         service = Trello_service()
