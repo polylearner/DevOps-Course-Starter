@@ -187,3 +187,4 @@ cypress_todo/debug.log
 cypress_todo/package-lock.json
 cypress_todo/package.json
 cypress_todo/cypress/fixtures/example.json
+geckodriver.exe
