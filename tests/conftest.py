@@ -1,7 +1,6 @@
-from dotenv import load_dotenv, find_dotenv
-
-import pytest
 from todo_app import app
+from dotenv import load_dotenv, find_dotenv
+import pytest
 
 @pytest.fixture
 def client():

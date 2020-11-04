@@ -1,18 +1,19 @@
+                {% set count = 1 %}
                 {% for todo in view_model.todo_items %}
                 <div class="container">
                     <li class="list-group">
                         <ul class="list-group-item">
                             <div class="row">
-                                <div class="col-sm-3">
+                                <div class="col-sm-3" id="todo_title">
                                     {{ todo.title }}
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-2" id="todo_status">
                                     {{ todo.status }}
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-check form-check-inline">
                                         <form class="form-inline" method="post" action="/update_todo/{{todo.id}}">
-                                            <input class="btn btn-primary btn-sm" type="submit" name="doing" value="Doing" placeholder="Doing" aria-label="Doing" aria-describedby="updateTask" {% if 'Done' == todo.status %} disabled {% endif %}>
+                                            <input class="btn btn-primary btn-sm" type="submit" name="doing" value="Doing" placeholder="Doing" aria-label="Doing" id="SubmitDoing" aria-describedby="updateTask" {% if 'Done' == todo.status %} disabled {% endif %}>
                                             <a class="btn btn-danger btn-sm" href="/remove_todo/{{todo.id}}" id="Delete">Delete</a>
                                         </form>
                                     </div>
@@ -21,4 +22,5 @@
                         </ul>
                     </li>
                 </div>
+                {% set count = count + 1 %}
                 {% endfor %}

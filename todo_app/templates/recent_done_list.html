@@ -3,10 +3,10 @@
                     <li class="list-group">
                         <ul class="list-group-item">
                             <div class="row">
-                                <div class="col-sm-3">
+                                <div class="col-sm-3" id="recently_done_title">
                                     {{ todo.title }}
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-2" id="recently_done_status">
                                     {{ todo.status }}
                                 </div>
                                 <div class="col-sm-3">
@@ -25,10 +25,10 @@
                 {% endfor %}
                 {% if view_model.recent_done_items|length == 0 %}
                 <div class="container">
-                <div class="row">
-                <div class="col-sm-8">
-                    No completed items for today.
-                    </div>  
+                    <div class="row">
+                        <div class="col-sm-8">
+                            No completed items for today.
+                        </div>  
                     </div>
-                    </div>
+                </div>
                 {% endif %}

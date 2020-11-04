@@ -10,59 +10,69 @@ def test_add_todo_item(driver, test_app):
     driver.get('http://localhost:5000/')
     text = "Test 1 To Do Item"
 
-    populate_title_tnput_element(driver, text)
+    populate_title_input_element(driver, text)
     submit_title_button_element(driver)
 
-    newToDoItemXPath = '/html/body/div/div[2]/div[2]/div/ul[1]/div/li/ul/div/div[1]'
+    newToDoItemXPath = '//*[@id="todo_title"]'
     newToDoItem = driver.find_elements(By.XPATH, newToDoItemXPath)
  
-    assert newToDoItem[0].text == text
+    for item in newToDoItem:
+        if item.text == text:
+            assert item.text == text
+            break
 
 def test_change_todo_item_doing(driver, test_app):
     driver.get('http://localhost:5000/')
     text = "Test 2 To Do Item"
-    populate_title_tnput_element(driver, text)
+    populate_title_input_element(driver, text)
     submit_title_button_element(driver)
     submit_doing_button_element(driver)
 
-    doingToDoItemXPath = '/html/body/div/div[2]/div[2]/div/ul[2]/div[1]/li/ul/div/div[2]'
+    doingToDoItemXPath = '//*[@id="doing_title"]'
     doingToDoItem = driver.find_elements(By.XPATH, doingToDoItemXPath)
 
-    assert doingToDoItem[0].text == 'Doing'
+    for item in doingToDoItem:
+        if item.text == text:
+            assert item.text == text
+            break
 
 def test_change_todo_item_done(driver, test_app):
     driver.get('http://localhost:5000/')
     text = "Test 3 To Do Item"
-    populate_title_tnput_element(driver, text)
+    populate_title_input_element(driver, text)
     submit_title_button_element(driver)
     submit_doing_button_element(driver)
     submit_done_button_element(driver)
 
-    doingToDoItemXPath = '/html/body/div/div[2]/div[2]/div/ul[3]/details[1]/div[1]/li/ul/div/div[2]'
-    doingToDoItem = driver.find_elements(By.XPATH, doingToDoItemXPath)
+    doneItemXPath = '//*[@id="recently_done_title"]'
+    doneItem = driver.find_elements(By.XPATH, doneItemXPath)
 
-    assert doingToDoItem[0].text == 'Done'
+    for item in doneItem:
+        if item.text == text:
+            assert item.text == text
+            break
 
-def populate_title_tnput_element(driver, text):
+
+def populate_title_input_element(driver, text):
     titleInputXPath = "//*[@id=\"title\"]"
     titleInput = driver.find_elements(By.XPATH, titleInputXPath)
     titleInput[0].send_keys(text)
-    sleep(5)
+    sleep(1)
 
 def submit_title_button_element(driver):
-    titleSubmitXPath = "/html/body/div/div[2]/div[1]/form/input[2]"
+    titleSubmitXPath = "//*[@id=\"titleSubmit\"]"
     titleSubmit = driver.find_elements(By.XPATH, titleSubmitXPath)
     titleSubmit[0].click()
-    sleep(5)
+    sleep(1)
 
 def submit_doing_button_element(driver):
-    doingSubmitXPath = "/html/body/div/div[2]/div[2]/div/ul[1]/div[1]/li/ul/div/div[3]/div/form/input"
+    doingSubmitXPath = "//*[@id=\"SubmitDoing\"]"
     doingSubmit = driver.find_elements(By.XPATH, doingSubmitXPath)
     doingSubmit[0].click()
-    sleep(5)
+    sleep(1)
 
 def submit_done_button_element(driver): 
     doneSubmitXPath = "/html/body/div/div[2]/div[2]/div/ul[2]/div/li/ul/div/div[3]/div/form/input"
     doneSubmit = driver.find_elements(By.XPATH, doneSubmitXPath)
     doneSubmit[0].click()
-    sleep(5)
+    sleep(1)
