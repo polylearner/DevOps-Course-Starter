@@ -8,9 +8,6 @@ class MockListsResponse(object):
 
     @property
     def text(self):
-        return self.json()
-
-    def json(self):
         with io.open("tests/trello_resp_list.json") as f:
             content = f.read()
         return content
@@ -23,9 +20,6 @@ class MockCardsResponse(object):
 
     @property
     def text(self):
-        return self.json()
-
-    def json(self):
         with io.open("tests/trello_resp_cards.json") as f:
             content = f.read()
         return content
