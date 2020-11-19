@@ -17,15 +17,6 @@ USE_VCR = 'False'
 ``` 
 The file must exists in the project folder level.
 
-Note on `USE_VCR` - this is a string flag ('True' or 'False') allowing VCR py to record HTTP requests and responses from Trello API.  Set this to 'True' only when you need to capture them.  VCR will write several 'cassette' in the tests\vcr_cassettes folder.  You will need to do this before running the PyTest class, `test_trello_data_with_vcr.py`.
-
-To run the VCR test on pytest suite, in Visual Studio Code open the `settings.json` file and edit it (for some reason, "tests_e2e" need to be excluded as it does not work well doing the all tests run):
-```
-    "python.testing.pytestArgs": [
-        "tests",
-        "tests_vcr"
-    ],
-```
 Note on Selenium e2e tests, download a copy of geckodriver.exe (https://github.com/mozilla/geckodriver/releases) and put it in the project-level folder.  Edit `settings.json` to include:
 ```
     "python.testing.pytestArgs": [

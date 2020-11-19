@@ -5,26 +5,22 @@ from todo_app.data.item import Item
 from todo_app.data.trelloList import TrelloList
 import todo_app.data.trello_constants as constants
 import iso8601
-import vcr
 
 class Trello_service(object):
     trello_lists = {}
     def get_auth_params(self):
         return { 'key': os.getenv('TRELLO_KEY'), 
                 'token': os.getenv('TRELLO_TOKEN'),
-                'list': os.getenv('TRELLO_BOARD_ID'),
-                'useVcr': os.getenv('USE_VCR')}
+                'list': os.getenv('TRELLO_BOARD_ID')}
 
     def initiate(self):
         trello_config = self.get_auth_params()
         trello_key = trello_config ['key']
         trello_token = trello_config ['token']
         trello_default_board = trello_config ['list']
-        use_vcr = trello_config['useVcr']
 
         self.TRELLO_CREDENTIALS = f"key={trello_key}&token={trello_token}"
         self.TRELLO_BOARD_ID = trello_default_board
-        self.USE_VCR = eval(use_vcr)
 
     def get_lists(self):
         """
@@ -32,7 +28,7 @@ class Trello_service(object):
 
         """
         url = f"{constants.TRELLO_API_URL}boards/{self.TRELLO_BOARD_ID}/lists?{self.TRELLO_CREDENTIALS}"
-        response = sendRequest(self.USE_VCR, "GET", url, 'get_lists')
+        response = sendRequest("GET", url)
         responseText =  response.text
         raw_lists = (json.loads(responseText.encode('utf8'))) #.encode('utf8')
         for trello_list in raw_lists:
@@ -61,7 +57,7 @@ class Trello_service(object):
         """
         items = []
         url = f"{constants.TRELLO_API_URL}boards/{self.TRELLO_BOARD_ID}/cards?{self.TRELLO_CREDENTIALS}"
-        response = sendRequest(self.USE_VCR, "GET", url, 'get_items')
+        response = sendRequest("GET", url)
         responseText =  response.text
         cards = json.loads(responseText.encode('utf8'))
         for card in cards:
@@ -102,7 +98,7 @@ class Trello_service(object):
         """
         listId = self.get_list_id(constants.TODO_APP_NOT_STARTED)
         url = f"{constants.TRELLO_API_URL}/cards?{self.TRELLO_CREDENTIALS}&idList={listId}&name={title}"
-        sendRequest(self.USE_VCR, "POST", url, 'add_item')
+        sendRequest("POST", url)
         self.get_items_from_trello()
 
     def save_item(self, item):
@@ -113,7 +109,7 @@ class Trello_service(object):
             item: The item to save.
         """
         url = f"{constants.TRELLO_API_URL}cards/{item.id}?{self.TRELLO_CREDENTIALS}&idList={item.listId}"
-        sendRequest(self.USE_VCR, "PUT", url, 'save_item')
+        sendRequest("PUT", url)
         self.get_items_from_trello()
 
     def remove_item(self, id):
@@ -125,7 +121,7 @@ class Trello_service(object):
         """
         item = self.get_item(id)
         url = f"{constants.TRELLO_API_URL}cards/{item.id}?{self.TRELLO_CREDENTIALS}&idList={item.listId}"
-        sendRequest(self.USE_VCR, "DELETE", url, 'remove_item')
+        sendRequest("DELETE", url)
         self.get_items_from_trello()
     
     def create_board(self, name):
@@ -143,11 +139,7 @@ class Trello_service(object):
         Delete a board for testing purpose
         """
         url = f"{constants.TRELLO_API_URL}boards/{id}?{self.TRELLO_CREDENTIALS}"
-        response = requests.request("DELETE", url)
+        response = sendRequest("DELETE", url)
 
-def sendRequest(useVcr, verb, url, action):
-    if( useVcr ):
-        with vcr.use_cassette(f'tests/vcr_cassettes/{action}_recording.yaml'):
-            return requests.request(verb, url)
-    else:
-        return requests.request(verb, url)
+def sendRequest(verb, url):
+    return requests.request(verb, url)
