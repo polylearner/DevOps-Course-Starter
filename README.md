@@ -112,3 +112,28 @@ If you want to run the container in background:
 ```powershell
 docker run -d -p 5000:5000 --env-file .\.env todo-app:prod 
 ```
+
+## Creating and running a container for test
+In a console, run this command:
+
+```powershell
+docker build --target test --tag todo-app:test .
+```
+
+```powershell
+docker run -p 5000:5000 --env-file .\.env --mount type=bind,source="$(pwd)"/todo_app,target=/project/todo_app todo-app:test
+```
+You might expect to find the output:
+```
+============================= test session starts ==============================
+platform linux -- Python 3.8.x, pytest-6.2.x, py-1.10.x, pluggy-0.13.x
+rootdir: /project
+plugins: dotenv-0.5.2
+collected 12 items
+
+tests/test_app_view_model.py .                                           [  8%]
+tests/test_view_model.py .......                                         [ 66%]
+tests_e2e/test_journey.py  * Serving Flask app "todo_app.app" (lazy loading)
+ * Environment: development
+....                                           [100%]
+```
