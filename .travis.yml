@@ -6,12 +6,10 @@ notifications:
     - mark.mcewen@capita.com
     on_success: never
     on_failure: always
+
 services:
 - docker
-script:
-- docker build --target test --tag todo-app:test .
-- docker run -e SECRET_KEY -e TRELLO_KEY -e TRELLO_TOKEN -e TRELLO_BOARD_ID --mount
-  type=bind,source="$(pwd)"/todo_app,target=/project/todo_app todo-app:test
+
 env:
   global:
   - FLASK_APP=todo_app/app FLASK_ENV=development
@@ -21,4 +19,19 @@ env:
   - secure: BS3qr9J4QGVZaI22gQUXOVc722/q8XNSgiply+A65QdsqXLPbgVa3NhxGyIyub3axI+MqyXaXLY1kkO8GOk05zZM3zSl//hvtc3yQKn4PIMOQwSzBJZBpjzwFCRPpyD7JNgHtoF2pya0u/WUqIrOMBRZSvl6/hMoZfTbzDwyxMwbSIHU3fhCwCYKgilKQ42t5hZXQaA4ZSqTyPZ93++AV1C3Y7RkOCzx5i6tIThfvJ/Ky3Xd14LUAmC4lZwBIHF/hjT9rP6oAJQagxEEfbyX+MQz7nTnhPfYrrf8BXcdx8sR9/7zlE+EuPLELzRk8Sy+OEHS6T8npLciSkAsdEey6K51vqTJ/fDyoWhlvTdID/qBJww1OcoRZi+OPUQtHo9kE5sYKADs0HoAXLDFmM4jF8Hd4QQ2ByuhDnGIDveYN9iNw0OQJGDZgbX0QBcvzbhKQN7OPCJkQvKqoixV3X8ejtUkGehBwZAGdhYkVmIeRYB/cSjSzSJx+tRJeOrLqjgUqmehWINIHzkk5qSMtVuhZeRIXDRpDmVYZdiEKFZWpAzAjkXMREDLBC32U4UbOMebrtK6Gz/PwlUQHXkAB4mOpaq3pecKCTvfVGDQMct9lyC6KMsb4EDFn6TPxTzQ4bOPZE6utz7iwQTvXrsFr6g37kzvwczBBkcJX9054OJAypc=
   - secure: NosVtWSmY4BAWBqbl+vQgoiT4/t+ORFpIN0l7qmenFHaCfuHcF41zF0FKkrgbT80gCbs5m2MlzCg4rtpMy+uSqpngCeky+GFs7aw2dG/vAe+KoNaT/do1C9D2tZMyJR2Socx7qr8D+8csrOPuH8MM8U4ygmIG9d/04Y4x8HXeI9K+3L/O2c8ds0WvvX+MAFFV1YV0yHtAoz9emh+dAVhl7kXZdMmUdlqeO/kHWfHUgzXDSUWFqhWVhbm3JL1HkK63OF5LfqctT+iQ8ZjluO9CxmqKA2hyKG16zUuTAB7Kigl6GCjr3MCveosDcXi3zqkiKVa8npWrJ0Z7PACtKrtiRO04+huXB5VrAybz5U3vryil6M3e0mPY8JUAjes5MUdFkz+saUK2SQyw9vaB2aXykX5vLMncnFqxCKQ7yIhpskuoXCh/8hMc+xLxnOZlc961HEO6sc9OgSQdYPXRGjNsfrqkOEDo1Kg8+Tbpe1KVrIvjgVb3LZxcG1x/1na8AHtKeU+4LWqguXyCygIBfG3DmccdEXtSpNNYkgusxy6PlaGdNAilG3WD3dzaN3754zA42hhejKRGItg3OuDEnSmnDn5gJoVNF3Grwr5u1jJdsQTZX8AZIM3Y+sqwKyPOrcZwONytBBLRFHxs1u7jEaMEIDarugWDiY6NZ9zQr7Rg/Y=
   - DOCKER_USERNAME=markmcdevops
-  
+
+jobs:
+  include:
+    - stage: Build docker images
+      before_script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+      script:
+      - docker build --target test --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test .
+      - docker push $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test
+
+    - stage: Test
+      script:
+      - docker run -e SECRET_KEY -e TRELLO_KEY -e TRELLO_TOKEN -e TRELLO_BOARD_ID --mount
+        type=bind,source="$(pwd)"/todo_app,target=/project/todo_app $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test
+
