@@ -21,13 +21,13 @@ jobs:
   include:
   - stage: Build docker images
     before_script:
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin .
     script:
     - docker build --target production --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT
     - docker push $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT
   - stage: Test
     script:
-    - docker build --target test --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test
+    - docker build --target test --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test .
     - docker run -e SECRET_KEY -e TRELLO_KEY -e TRELLO_TOKEN -e TRELLO_BOARD_ID --mount
       type=bind,source="$(pwd)"/todo_app,target=/project/todo_app $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test
 
