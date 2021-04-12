@@ -11,6 +11,9 @@ COPY  poetry.lock pyproject.toml /project/
 COPY docker-entrypoint.sh ./
 RUN cd /project/
 RUN poetry install --no-dev
+RUN adduser -d devopsuser
+USER devopsuser
+
 CMD ["./docker-entrypoint.sh"]
 
 FROM base as developments
