@@ -13,6 +13,7 @@ RUN cd /project/
 RUN poetry install --no-dev
 RUN adduser --disabled-password devopsuser
 USER devopsuser
+RUN chmod +x ./docker_entrypoint.sh
 
 CMD ["./docker-entrypoint.sh"]
 
