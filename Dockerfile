@@ -5,15 +5,15 @@ RUN pip install poetry
 WORKDIR /project
 
 FROM base as production
+RUN adduser --disabled-password devopsuser
 COPY /todo_app /project/todo_app
 COPY poetry.lock /project/
 COPY poetry.lock pyproject.toml /project/
 COPY docker-entrypoint.sh ./
+RUN chmod +x ./docker-entrypoint.sh
+USER devopsuser
 RUN cd /project/
 RUN poetry install --no-dev
-RUN chmod +x ./docker-entrypoint.sh
-RUN adduser --disabled-password devopsuser
-#USER devopsuser
 CMD ["./docker-entrypoint.sh"]
 
 FROM base as developments
