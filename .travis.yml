@@ -20,8 +20,10 @@ env:
 jobs:
   include:
   - stage: Build docker images
+    before_install:
+    - wget -qO- https://toolbelt.heroku.com/install.sh | sh
     before_script:
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 
     script:
     - docker build --target production --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT .
     - docker push $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT
@@ -33,11 +35,9 @@ jobs:
     after_success:
       - bash docker_hub_push
       - docker tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT registry.heroku.com/todo-app-devops-july/web
-      - docker push registry.heroku.com/todo-app-devops-july/web
-      - ( echo "$HEROKU_USERNAME" echo "$HEROKU_PASSWORD" ) | heroku login -i
       - heroku container:login
+      - docker push registry.heroku.com/todo-app-devops-july/web
       - heroku container:release web --app todo-app-devops-july
-
 
   - stage: Test
     script:
