@@ -5,13 +5,11 @@ RUN pip install poetry
 WORKDIR /project
 
 FROM base as production
-RUN adduser --disabled-password devopsuser
 COPY /todo_app /project/todo_app
 COPY poetry.lock /project/
 COPY poetry.lock pyproject.toml /project/
 COPY docker-entrypoint.sh ./
 RUN chmod +x ./docker-entrypoint.sh
-#USER devopsuser
 RUN cd /project/
 RUN poetry config virtualenvs.create false --local \
      && poetry install --no-dev

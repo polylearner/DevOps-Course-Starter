@@ -25,6 +25,20 @@ jobs:
     script:
     - docker build --target production --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT .
     - docker push $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT
+    - docker pull markmcdevops/todo-app:$TRAVIS_COMMIT
+    - docker tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT registry.heroku.com/todo-app-devops-july/web
+    - docker push registry.heroku.com/todo-app-devops-july/web
+    - heroku container:release web -a todo-app-devops-july
+
+    after_success:
+      - bash docker_hub_push
+      - docker tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT registry.heroku.com/todo-app-devops-july/web
+      - docker push registry.heroku.com/todo-app-devops-july/web
+      - ( echo "$HEROKU_USERNAME" echo "$HEROKU_PASSWORD" ) | heroku login -i
+      - heroku container:login
+      - heroku container:release web --app todo-app-devops-july
+
+
   - stage: Test
     script:
     - docker build --target test --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test .
