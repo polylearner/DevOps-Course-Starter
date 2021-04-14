@@ -34,8 +34,8 @@ jobs:
 
     after_success:
       - bash docker_hub_push
-      - docker tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT registry.heroku.com/todo-app-devops-july/web
       - heroku container:login
+      - docker tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT registry.heroku.com/todo-app-devops-july/web
       - docker push registry.heroku.com/todo-app-devops-july/web
       - heroku container:release web --app todo-app-devops-july
 
