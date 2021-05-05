@@ -1,8 +1,8 @@
+from todo_app.data.mongo_items import Mongo_service
 from todo_app.app_config import Config
 from todo_app.viewmodel import ViewModel
 from flask import Flask, render_template, request, redirect, url_for
 
-from todo_app.data.trello_items import Trello_service
 from todo_app.data.item import Item
 from werkzeug.debug import DebuggedApplication
 import todo_app.data.trello_constants as constants
@@ -15,7 +15,7 @@ def create_app():
         app.wsgi_app = DebuggedApplication(app.wsgi_app, evalex=True)
 
     with app.app_context():
-        service = Trello_service()
+        service = Mongo_service()
         service.initiate()
     
     @app.route('/')

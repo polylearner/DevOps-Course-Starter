@@ -32,7 +32,7 @@ class Mongo_service(object):
         Fetches all lists from Mongo db.
 
         """
-        lists = self.db.todo_lists
+        lists = self.db.todo_lists.find({})
         for list in lists:
             trelloListDict = TrelloList(name=list[constants.TRELLO_NAME], 
                                         boardId=list[constants.TRELLO_ID_BOARD])
@@ -58,10 +58,7 @@ class Mongo_service(object):
             list: The list of saved items.
         """
         items = []
-        url = f"{constants.TRELLO_API_URL}boards/{self.TRELLO_BOARD_ID}/cards?{self.TRELLO_CREDENTIALS}"
-        response = requests.request("GET", url)
-        responseText =  response.text
-        cards = json.loads(responseText.encode('utf8'))
+        cards = self.db.cards.find({})
         for card in cards:
             trelloListDict = self.trello_lists[card[constants.TRELLO_IDLIST]]
             item = Item(id=card[constants.TRELLO_ID], 
