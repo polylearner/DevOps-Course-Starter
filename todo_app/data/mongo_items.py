@@ -1,3 +1,4 @@
+from datetime import datetime
 import requests
 import json
 import os
@@ -61,7 +62,7 @@ class Mongo_service(object):
         cards = self.db.cards.find({})
         for card in cards:
             trelloListDict = self.trello_lists[card[constants.TRELLO_IDLIST]]
-            item = Item(id=card[constants.TRELLO_ID], 
+            item = Item(id=card["_id"], 
                         status=trelloListDict.name, 
                         title=card[constants.TRELLO_NAME], 
                         listId=card[constants.TRELLO_IDLIST],
@@ -96,9 +97,14 @@ class Mongo_service(object):
             item: The saved item.
         """
         listId = self.get_list_id(constants.TODO_APP_NOT_STARTED)
-        url = f"{constants.TRELLO_API_URL}/cards?{self.TRELLO_CREDENTIALS}&idList={listId}&name={title}"
-        
-        requests.request("POST", url)
+        currentDate = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+        cards = self.db.cards
+        item = {
+            "idList": listId,
+            "name": title,
+            "dateLastActivity": currentDate
+        }
+        post_id = cards.insert(item)
         self.get_items_from_trello()
 
     def save_item(self, item):
