@@ -3,6 +3,7 @@ import requests
 import json
 import os
 import pymongo
+from bson import ObjectId
 
 from todo_app.data.item import Item
 from todo_app.data.trelloList import TrelloList
@@ -84,7 +85,7 @@ class Mongo_service(object):
             item: The saved item, or None if no items match the specified ID.
         """
         items = self.get_items()
-        return next((item for item in items if item.id == id), None)
+        return next((item for item in items if item.id == ObjectId(id)), None)
 
     def add_item(self, title):
         """
@@ -114,8 +115,14 @@ class Mongo_service(object):
         Args:
             item: The item to save.
         """
-        url = f"{constants.TRELLO_API_URL}cards/{item.id}?{self.TRELLO_CREDENTIALS}&idList={item.listId}"
-        requests.request("PUT", url)
+        listId = self.get_list_id(item.status)
+        currentDate = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+        cards = self.db.cards
+
+        cards.update_one({"_id": item.id}, {"$set":
+                 {"idList": listId,
+                  "dateLastActivity": currentDate}
+             })
         self.get_items_from_trello()
 
     def remove_item(self, id):
