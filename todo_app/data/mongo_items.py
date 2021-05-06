@@ -133,8 +133,8 @@ class Mongo_service(object):
             id: The item's id to delete.
         """
         item = self.get_item(id)
-        url = f"{constants.TRELLO_API_URL}cards/{item.id}?{self.TRELLO_CREDENTIALS}&idList={item.listId}"
-        requests.request("DELETE", url)
+        cards = self.db.cards
+        cards.delete_one({"_id": item.id})
         self.get_items_from_trello()
     
     def create_board(self, name):
