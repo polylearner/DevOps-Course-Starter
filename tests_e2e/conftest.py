@@ -11,7 +11,7 @@ from selenium import webdriver
 
 @pytest.fixture(scope="module")
 def driver():
-    opts = webdriver.ChromeOptions()
+    opts = webdriver.Firefox()
     opts.add_argument('--headless')
     opts.add_argument('--no-sandbox')
     opts.add_argument('--disable-dev-shm-usage')

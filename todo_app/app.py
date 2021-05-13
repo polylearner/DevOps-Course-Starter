@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for
 
 from todo_app.data.item import Item
 from werkzeug.debug import DebuggedApplication
-import todo_app.data.trello_constants as constants
+import todo_app.data.mongo_constants as constants
 
 def create_app():
     app = Flask(__name__)

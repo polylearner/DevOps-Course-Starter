@@ -6,28 +6,33 @@ import pymongo
 from bson import ObjectId
 
 from todo_app.data.item import Item
-from todo_app.data.trelloList import TrelloList
-import todo_app.data.trello_constants as constants
+from todo_app.data.mongoList import MongoList
+import todo_app.data.mongo_constants as constants
 import iso8601
 
 class Mongo_service(object):
-    trello_lists = {}
+    mongo_lists = {}
      
     def get_mongo_params(self):
         return { 'user_name': os.getenv('USER_NAME'), 
                 'password': os.getenv('PASSWORD'),
                 'mongo_url': os.getenv('MONGO_URL'),
-                'default_db': os.getenv('DEFAULT_DATABASE')}
+                'default_db': os.getenv('DEFAULT_DATABASE'),
+                'mongo_prefix': os.getenv('MONGO_PREFIX')}
 
     def initiate(self):
-        self.trello_lists = {}
+        self.mongo_lists = {}
+        self.init_mongo_db()
+
+    def init_mongo_db(self):
         mongo_config = self.get_mongo_params()
         mongo_user = mongo_config ['user_name']
         mongo_password = mongo_config ['password']
         mongo_url = mongo_config ['mongo_url']
         mongo_db = mongo_config ['default_db']
-        mongo_client = pymongo.MongoClient(f"mongodb+srv://{mongo_user}:{mongo_password}@{mongo_url}/{mongo_db}?retryWrites=true&w=majority")
-        self.db = mongo_client['mmce_corndel_todo']
+        mongo_prefix = mongo_config ['mongo_prefix']
+        mongo_client = pymongo.MongoClient(f"{mongo_prefix}{mongo_user}:{mongo_password}@{mongo_url}/{mongo_db}?retryWrites=true&w=majority")
+        self.db = mongo_client[f'{mongo_db}']
 
     def get_lists(self):
         """
@@ -36,25 +41,25 @@ class Mongo_service(object):
         """
         lists = self.db.todo_lists.find({})
         for list in lists:
-            trelloListDict = TrelloList(name=list[constants.TRELLO_NAME], 
-                                        boardId=list[constants.TRELLO_ID_BOARD])
-            self.trello_lists[list[constants.TRELLO_ID]] = trelloListDict
+            mongoListDict = MongoList(name=list[constants.MONGO_NAME], 
+                                        boardId=list[constants.MONGO_ID_BOARD])
+            self.mongo_lists[list[constants.MONGO_ID]] = mongoListDict
 
     def get_list_id(self, name):
         """
-        Get a trello list id for a give name from the list of all lists.
+        Get a mongo list id for a give name from the list of all lists.
 
         Returns:
             listId:  The identifier for a given name
         """
-        for listId in self.trello_lists:
-            trello_list = self.trello_lists[listId]
-            if trello_list.name == name:
+        for listId in self.mongo_lists:
+            mongo_list = self.mongo_lists[listId]
+            if mongo_list.name == name:
                 return listId
 
-    def get_items_from_trello(self):
+    def get_items_from_mongo(self):
         """
-        Fetches all saved items from Trello.
+        Fetches all saved items from mongo.
 
         Returns:
             list: The list of saved items.
@@ -62,17 +67,17 @@ class Mongo_service(object):
         items = []
         cards = self.db.cards.find({})
         for card in cards:
-            trelloListDict = self.trello_lists[card[constants.TRELLO_IDLIST]]
+            mongoListDict = self.mongo_lists[card[constants.MONGO_IDLIST]]
             item = Item(id=card["_id"], 
-                        status=trelloListDict.name, 
-                        title=card[constants.TRELLO_NAME], 
-                        listId=card[constants.TRELLO_IDLIST],
+                        status=mongoListDict.name, 
+                        title=card[constants.MONGO_NAME], 
+                        listId=card[constants.MONGO_IDLIST],
                         lastActivity=iso8601.parse_date(card["dateLastActivity"] ))
             items.insert(1, item)
         return items
 
     def get_items(self):
-        return self.get_items_from_trello()
+        return self.get_items_from_mongo()
 
     def get_item(self, id):
         """
@@ -89,7 +94,7 @@ class Mongo_service(object):
 
     def add_item(self, title):
         """
-        Adds a new item with the specified title to Trello.
+        Adds a new item with the specified title to mongo.
 
         Args:
             title: The title of the item.
@@ -106,11 +111,11 @@ class Mongo_service(object):
             "dateLastActivity": currentDate
         }
         post_id = cards.insert(item)
-        self.get_items_from_trello()
+        self.get_items_from_mongo()
 
     def save_item(self, item):
         """
-        Updates an existing item at Trello. If no existing item matches the ID of the specified item, nothing is saved.
+        Updates an existing item at mongo. If no existing item matches the ID of the specified item, nothing is saved.
 
         Args:
             item: The item to save.
@@ -123,7 +128,7 @@ class Mongo_service(object):
                  {"idList": listId,
                   "dateLastActivity": currentDate}
              })
-        self.get_items_from_trello()
+        self.get_items_from_mongo()
 
     def remove_item(self, id):
         """
@@ -135,7 +140,7 @@ class Mongo_service(object):
         item = self.get_item(id)
         cards = self.db.cards
         cards.delete_one({"_id": item.id})
-        self.get_items_from_trello()
+        self.get_items_from_mongo()
     
     def create_board(self, name):
         """

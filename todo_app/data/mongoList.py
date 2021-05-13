@@ -1,4 +1,4 @@
-class TrelloList(object):
+class MongoList(object):
     def __init__(self, boardId, name):
         self._boardId = boardId
         self._name = name
