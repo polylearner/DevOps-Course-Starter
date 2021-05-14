@@ -32,6 +32,7 @@ class Mongo_service(object):
         mongo_db = mongo_config ['default_db']
         mongo_prefix = mongo_config ['mongo_prefix']
         mongo_client = pymongo.MongoClient(f"{mongo_prefix}{mongo_user}:{mongo_password}@{mongo_url}/{mongo_db}?retryWrites=true&w=majority")
+        self.client = mongo_client
         self.db = mongo_client[f'{mongo_db}']
 
     def get_lists(self):
@@ -146,18 +147,39 @@ class Mongo_service(object):
         """
         Create a board for testing purpose
         """
-        url = f"{constants.TRELLO_API_URL}boards/?{self.TRELLO_CREDENTIALS}&name={name}"
-        response = requests.request("POST", url)
-        responseText =  response.text
-        newBoard = json.loads(responseText.encode('utf8'))
-        return newBoard['id']
+        self.db = self.client['mmce_corndel_todo_test']
+        self.db.create_collection('todo_lists')
+        self.db.todo_lists.insert_many([{
+                                        "_id": "60916128ff76116ee04dd66d",
+                                        "id": "5f6456f870c89e025d4cb788",
+                                        "name": "To Do",
+                                        "closed": "false",
+                                        "idBoard": "5f6456f8fc414517ed9b0e41",
+                                        "subscribed": "false"
+                                        },{
+                                        "_id": "60916128ff76116ee04dd66e",
+                                        "id": "5f898ae720d5bc2a631ce2e1",
+                                        "name": "Doing",
+                                        "closed": "false",
+                                        "idBoard": "5f6456f8fc414517ed9b0e41",
+                                        "subscribed": "false"
+                                        },{
+                                        "_id": "60916128ff76116ee04dd66f",
+                                        "id": "5f6456f8536a55223a9ebca0",
+                                        "name": "Done",
+                                        "closed": "false",
+                                        "idBoard": "5f6456f8fc414517ed9b0e41",
+                                        "subscribed": "false"
+                                        }])
+        return "5f6456f8fc414517ed9b0e41"
 
     def delete_board(self, id):
         """
         Delete a board for testing purpose
         """
-        url = f"{constants.TRELLO_API_URL}boards/{id}?{self.TRELLO_CREDENTIALS}"
-        response = requests.request("DELETE", url)
+        self.db = self.client['mmce_corndel_todo_test']
+        self.db.drop_collection('todo_lists')
+        self.db.drop_collection('cards')
 
 def sendRequest(verb, url):
     return requests.request(verb, url)
