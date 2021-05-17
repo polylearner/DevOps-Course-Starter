@@ -35,6 +35,8 @@ RUN LATEST=`curl -sSL https://chromedriver.storage.googleapis.com/LATEST_RELEASE
    curl -sSL https://chromedriver.storage.googleapis.com/${LATEST}/chromedriver_linux64.zip -o chromedriver_linux64.zip &&\
    apt-get install unzip -y &&\
    unzip ./chromedriver_linux64.zip
+
+COPY .env.test /project/
 COPY /todo_app /project/todo_app
 COPY /tests/ /project/tests/
 COPY /tests_e2e/ /project/tests_e2e/
