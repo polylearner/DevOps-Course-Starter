@@ -6,11 +6,13 @@ WORKDIR /project
 
 FROM base as production
 COPY /todo_app /project/todo_app
-COPY  poetry.lock /project/
-COPY  poetry.lock pyproject.toml /project/
+COPY poetry.lock /project/
+COPY poetry.lock pyproject.toml /project/
 COPY docker-entrypoint.sh ./
+RUN chmod +x ./docker-entrypoint.sh
 RUN cd /project/
-RUN poetry install --no-dev
+RUN poetry config virtualenvs.create false --local \
+     && poetry install --no-dev
 CMD ["./docker-entrypoint.sh"]
 
 FROM base as developments

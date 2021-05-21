@@ -8,11 +8,6 @@ notifications:
     on_failure: always
 services:
 - docker
-script:
-- docker build --target test --tag todo-app:test .
-- docker run --env-file "$(pwd)"/.env.test todo-app:test
-- docker build --target test_e2e --tag todo-app:test_e2e .
-- docker run -e SECRET_KEY -e TRELLO_KEY -e TRELLO_TOKEN --mount type=bind,source="$(pwd)"/todo_app,target=/project/todo_app todo-app:test_e2e
 env:
   global:
   - FLASK_APP=todo_app/app FLASK_ENV=development
@@ -20,3 +15,30 @@ env:
   - secure: E0W1BgRZGThhXtIahakuP/k4aPPZdKF+hJUXd+25GOJdvabxuQmVaTltjbOoJKzqbmy8oVpHoAFW00VEVhKvTIK7O1SVqVYNjNtZhe2lxzlrTHKNYq6AlavhqjLucq9DqSBSHSNMelg2fAokhyauCLfH3YQy+C/nIwJZr+7RgpyjXehknBnrvFHvygUDW7QqNBKOXM+H6W8x7YyjAMgsf0bSUUQxeAk3daNmldjvg49C0J5Ac6uxjtM1kby4BrVYPlKz6M8cK7uFVIlc2JXS75MfYxIAl0t0EUekEfdsdMHJBYbZE/YcIzNhFvN58+v2rYnyQFarDqTGfXRgJhh1AknFJtYaQ/tZck8aBti9/LSndZJ8q+hb+K7yc+QWwQGSzd4patsHvp3KtsI7XnbArOCMccbtPl4yGixPpK4kgGAyjv/zykHsWpZnSDvd6taUs2xP9mdiUkUR7pFehwI0OmuRzTno+OQAW2oMO7NIifjVqaYh0KMAZYJk19PAd8iQlPqnT6nA6zLnuHOIadsTJi7DfrU950UIOoJYtE03ujgaLxq1y+3LgVlqsZT5Hs3p+9vV5BEYm3twPyTrlJqY7es9MTsvHIQu/aFmgG1btv8hmEJw/6hABHncnVPY+tIe/iVfGdZZ0DpQ/Hrjk2UmzZz3jpWHXd+LLIYMCnq1P/Y=
   - secure: XL7P2xovLrObNNqmWFNcQ+/PIlOJLbixFdqMzrNBm55lXENSwUGgYUeWqULsBWeTHbNknu1XwXDh9EHrziZuocb6ARc1LjAXBT7AzCdAHcvgZRYnnOucm1YWBQcYQJlcUsftVKByVfMyiTvKDw0qYoJZTnzEP5ykBASZvgM3gePcemcZnvAl0jrvSKNpsFwxZt/Yg5wn15COAqbjdKy/4ZXI2QBpZCOX5jHtUy5CGNyKQ9NynC9gcLjgKI1mohYDckTLNP1pdHQ14ecK2PkhOwu92ViRnvCfgNj7gZJSB3jb8JFyMtXZeLuekcJRusvzMI/umctpqHNgqonROTUgJcGyZzkFfXCe1U3SSPENChMW+L3AS/cm6wq7UxLqyyPm8b/6/btvhJE4Dkm/JZjK+d9rTMfRuinij7zlI7yGoP8Z7w3jUJfIMk8mJmJ+/xAueQ8r7YAvImDH4MKduvFgPucdu2jYRNOB7b2wx18c3xjqGz51g3yMhway0vSPwnsHppgmCjLj5FvFYhMFTEoDfQ5fZwhXWfzmTyfh1G7FkcZKcPXWB6WyTQzNJxM1H+TRUnkfiXkd2DIc5d/NSEhzPGOj2GQKT5aoR3xkS7KEpQXF7kzyfs4Abg3WIh7JkYMnONqXDFM4vsE+oQCTygIHiazhh+OG5HnRMqAdiOE2jhg=
   - secure: BS3qr9J4QGVZaI22gQUXOVc722/q8XNSgiply+A65QdsqXLPbgVa3NhxGyIyub3axI+MqyXaXLY1kkO8GOk05zZM3zSl//hvtc3yQKn4PIMOQwSzBJZBpjzwFCRPpyD7JNgHtoF2pya0u/WUqIrOMBRZSvl6/hMoZfTbzDwyxMwbSIHU3fhCwCYKgilKQ42t5hZXQaA4ZSqTyPZ93++AV1C3Y7RkOCzx5i6tIThfvJ/Ky3Xd14LUAmC4lZwBIHF/hjT9rP6oAJQagxEEfbyX+MQz7nTnhPfYrrf8BXcdx8sR9/7zlE+EuPLELzRk8Sy+OEHS6T8npLciSkAsdEey6K51vqTJ/fDyoWhlvTdID/qBJww1OcoRZi+OPUQtHo9kE5sYKADs0HoAXLDFmM4jF8Hd4QQ2ByuhDnGIDveYN9iNw0OQJGDZgbX0QBcvzbhKQN7OPCJkQvKqoixV3X8ejtUkGehBwZAGdhYkVmIeRYB/cSjSzSJx+tRJeOrLqjgUqmehWINIHzkk5qSMtVuhZeRIXDRpDmVYZdiEKFZWpAzAjkXMREDLBC32U4UbOMebrtK6Gz/PwlUQHXkAB4mOpaq3pecKCTvfVGDQMct9lyC6KMsb4EDFn6TPxTzQ4bOPZE6utz7iwQTvXrsFr6g37kzvwczBBkcJX9054OJAypc=
+  - secure: NqG5WvbeIj0JbVrJMbepKZQwHEl2pJSZvYIckDTDy528rGf6ICdmp4PuhwyPboCDYO9/VxySXgaXrGjE3Hc/E9teWqiJwgcnB/YLpVBBgjcEfxOUU+KTUGlx4VJ6dIaQf1I6EBxe8Qw3mWP3gINp89JlO1iqwwKhXPkY2YpMIRZgyHLHcNAiIrRGg2If481XfRDZkVt+k7UfVTYOKygvUncCLv8v02oZ9kWeX61CIkLgqAZYhI8j9bYA0tA+6koHSSZ1IgjvgsmW2CMfjrqPVOwXxnyqM8dFet82BeQtGeWIsYBVtZtgRFCdvpqx7+nQw/addyRVVM1SOir78ZW6mJ2beGT3V5eRAvGNCgGgZDJ4mSIWFrg3Z6EPT3G+zeAzg6dee+kByO++Nx+4cMYIOx9ZUMJC9eOlvrGM44tccvV3HkJ4JVF+vD8gXzDKWh6YaiHPe3iOKy5e5akcWs4WZAvYdfWygJ4bddfCjbO3xMGLSpGQdTiiwiySF22DvyaaBgZcYH6zyYb38KygM9oCMVjeMfDNi8m6qKj6lPNmk1jVxPLq3d30n5biyC2epakMK0waky7JE2h4AYq2Y8cpaXeq9w0gQjtt4QCjTTw56xrk+fRJYcJp2KnCr//GlL5NCdvxG8uu2DqXX6Aeu4Pj+6XPiFUeMQbihrPlDJ8O1zk=
+  - DOCKER_USERNAME=markmcdevops
+jobs:
+  include:
+  - stage: Build docker images
+    before_install:
+    - wget -qO- https://toolbelt.heroku.com/install.sh | sh
+    before_script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 
+    script:
+    - docker build --target production --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT .
+    - docker push $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT
+    
+    after_success:
+    - bash docker_hub_push
+    - heroku container:login
+    - docker pull markmcdevops/todo-app:$TRAVIS_COMMIT
+    - docker tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT registry.heroku.com/todo-app-devops-july/web
+    - docker push registry.heroku.com/todo-app-devops-july/web
+    - heroku container:release web --app todo-app-devops-july
+
+  - stage: Test
+    script:
+    - docker build --target test --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test .
+    - docker run -e SECRET_KEY -e TRELLO_KEY -e TRELLO_TOKEN -e TRELLO_BOARD_ID --mount
+      type=bind,source="$(pwd)"/todo_app,target=/project/todo_app $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test
+

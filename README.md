@@ -13,8 +13,6 @@ Create a text file, `.env`, that must have the following:
 TRELLO_KEY=<Trello API key>
 TRELLO_TOKEN=<Trello API token>
 TRELLO_BOARD_ID=<Trello board id>
-key=<Trello API key>
-token=<Trello API token>
 ``` 
 The file must reside in the ```todo_app``` folder.
 
@@ -137,3 +135,22 @@ tests_e2e/test_journey.py  * Serving Flask app "todo_app.app" (lazy loading)
  * Environment: development
 ....                                           [100%]
 ```
+
+## Continuous Integration (CI) and Continuous Delivery (CD)
+For CI, this project comes a configuration YAML file for Travis CI.  You will need to have an account with Travis (please visit by clicking here [Travis CI](https://travis-ci.com/signup)).  Please refer to their documentation for use.  You will need to associate your GitHub account to access this project.
+
+The YAML file will need to be amended for the following:
+* SECRET_KEY
+* TRELLO_KEY
+* TRELLO_TOKEN
+* TRELLO_BOARD_ID
+* DOCKER_PASSWORD
+
+You can see they are from your .env file. Please remove any entry in the YAML file beginning with `-secure ...` in the `env` -> `global` section.  You must encrypt your values with Travis CLI (see [Encryption Keys - Usage](https://docs.travis-ci.com/user/encryption-keys#usage)).  **Note** on Docker's password - please use your generated API token, not the actual password!
+
+For CD, the Travis YML configuration file uses Heroku Application platform - see [Heroku Sign up](https://id.heroku.com/signup/)
+
+You will need to install/use Heroku CLI to do some configuration for values from your `.env` file such as:
+
+``heroku config:set `cat .env | grep TRELLO_KEY` ``
+
