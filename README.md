@@ -119,7 +119,7 @@ docker build --target test --tag todo-app:test .
 ```
 
 ```powershell
-docker run -p 5000:5000 --env-file .\.env --mount type=bind,source="$(pwd)"/todo_app,target=/project/todo_app todo-app:test
+docker run --env-file .\.env --mount type=bind,source="$(pwd)"/todo_app,target=/project/todo_app todo-app:test
 ```
 You might expect to find the output:
 ```

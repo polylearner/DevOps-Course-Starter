@@ -1,8 +1,7 @@
 **/__pycache__
 **/.classpath
 **/.dockerignore
-**/.env
-**/.env.test  
+**/.env 
 **/.git
 **/.gitignore
 **/.project
