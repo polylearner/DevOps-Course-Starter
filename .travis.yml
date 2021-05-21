@@ -41,7 +41,7 @@ jobs:
     script:
     - docker build --target test --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test
       .
-    - docker build --target test --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test_e2e
+    - docker build --target test_e2e --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test_e2e
       .
     - docker run -e SECRET_KEY -e USER_NAME -e PASSWORD -e MONGO_URL -e MONGO_PREFIX
       -e DEFAULT_DATABASE -e TRELLO_BOARD_ID --mount type=bind,source="$(pwd)"/todo_app,target=/project/todo_app
