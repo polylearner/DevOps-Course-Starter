@@ -1,13 +1,7 @@
 **/__pycache__
 **/.classpath
 **/.dockerignore
-**/.env
-#**/.env.test  
-**/.git
-**/.gitignore
-**/.project
 **/.settings
-**/.toolstarget
 **/.vs
 **/.vscode
 **/*.*proj.user
