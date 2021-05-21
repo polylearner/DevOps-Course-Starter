@@ -11,23 +11,37 @@ services:
 env:
   global:
   - FLASK_APP=todo_app/app FLASK_ENV=development
-  #SECRET_KEY
   - secure: EXav8MfB+psh+Fzm0gUjFWpR02490CB0lCGpReR2knuESkaf9nmy+R8obr31OlQHB0oX7ixocG8/KNpF7d9GiZtYt/RiO+1gAAWT0YOA/A3LQ5lnYA2I04h3JUWeUBK1KJwBdK88ca4i+mfJKYKoIeRliwkvuGTOmgQlQ19zwjej6NIFiA2taLbs2TZ4ZW9w0rw8WRx1W5VDJ4pjqCjXS9YBVGqqrWgh9/kXjkUc1RYyGBaTexi24vPG9JPRwyP/qtwoB19ThqCMiyi+HxA/9p50Jw7BAJIFYKBw8Saq0OF0VxCs3G8XT6y4AjUc77mD1d8UQ5Oovn8iLjISk5vy9R03gIK/nVLaSxqojmEzrUrdB9OTOJrUhCpc8Lq6oOTZfZnLLtlhDbkg+8mpJvqEwPxSMBEUDuVbDEsbcI2YcCgB/TxwOieo+67rqzq6sEtX5JxwQhP1ZiJ4E+srbhvZkGtI+pJyELs/1LZb42bn+cNWa4znKDvJcpireqQ1h5vel92rB60Axg/t3Mgqg0P3Jqg55Bf5zi4u3gqLaWESjc0n8NdavDgQ+iLVC7Dtdh2nPQ2k7pGHeiA/isxneo/nF9yCuvTqJvCjFsboAv1HQwX89SHiQGvqZV4nJDHTaH7evwMdb6gvuDw0BjeOhqumoDf0c09ZfO495dYbcI/oeiE=
-  #DOCKER_PASSWORD
   - secure: NqG5WvbeIj0JbVrJMbepKZQwHEl2pJSZvYIckDTDy528rGf6ICdmp4PuhwyPboCDYO9/VxySXgaXrGjE3Hc/E9teWqiJwgcnB/YLpVBBgjcEfxOUU+KTUGlx4VJ6dIaQf1I6EBxe8Qw3mWP3gINp89JlO1iqwwKhXPkY2YpMIRZgyHLHcNAiIrRGg2If481XfRDZkVt+k7UfVTYOKygvUncCLv8v02oZ9kWeX61CIkLgqAZYhI8j9bYA0tA+6koHSSZ1IgjvgsmW2CMfjrqPVOwXxnyqM8dFet82BeQtGeWIsYBVtZtgRFCdvpqx7+nQw/addyRVVM1SOir78ZW6mJ2beGT3V5eRAvGNCgGgZDJ4mSIWFrg3Z6EPT3G+zeAzg6dee+kByO++Nx+4cMYIOx9ZUMJC9eOlvrGM44tccvV3HkJ4JVF+vD8gXzDKWh6YaiHPe3iOKy5e5akcWs4WZAvYdfWygJ4bddfCjbO3xMGLSpGQdTiiwiySF22DvyaaBgZcYH6zyYb38KygM9oCMVjeMfDNi8m6qKj6lPNmk1jVxPLq3d30n5biyC2epakMK0waky7JE2h4AYq2Y8cpaXeq9w0gQjtt4QCjTTw56xrk+fRJYcJp2KnCr//GlL5NCdvxG8uu2DqXX6Aeu4Pj+6XPiFUeMQbihrPlDJ8O1zk=
   - DOCKER_USERNAME=markmcdevops
-
+  - secure: q9By7xLiGCzYfSz25OOXaFHobGxixYWUrfyrNlro3zP7G9at50Rp1/+54tHOi4syq8NdbQu2UJ7oXttMYjB6AhrWg/fDF3oJkzkjcexCwe7vHXDEE2YWuuQwWU6bJ9BKLOMCdrYFW5nHuXwbTS9jng1iQLQDGUeN5bpZ4gncP2v/45randJG3b1uNmn5gTovs4vC6ujS7SeWATzNNSUHes/R0DJRJwqM8Lt1CfEjvXi5a9i7owazR9WtFR5BbEbo1rXfgGsEb9gKL5Ebv/y/7DKvqg9/34i+Znn26m4UdI++3YuGLdPEnWIcV+8obG8vnucYqMug9IM6rbldTGKp37NSR9br7FQ/AtPui9CbiLS4o+w6sM+FnVO8mzLT7hnuYJv3ZTjOL0DJHGJORvtXi1FmJkciIeDXo5OTNYd672cmxmzN7eCqAy1/Pj2lWFiwNPIJ7Mh69KRJ1QYhY4hfPpng65GBhp6cEJc/TDsws9QOL0Phaj88o68jjNwayzAGFnJA6Bbd/av29pR71inTwnw500wpTOUeUmVMOaLez8q7pGrjUoiCDvPN6M+g4oZfxoZVrD3ws965Cgu8ePd7yzjuxAOszlG223hyHJMKp5CreVl8EnLn4MvRSxqaDK0uUynlUKw7MKOC8Dsrp3eJtd+2ruMrr0CeFKOKIMydJWI=
+  - secure: ZpvDF6WBNujfSPZgiDrwsgC1zVaY+VhTNtm1zLanLZrVgsQtqlS1y9zORMdF3TUr7guksU/7BcZwJqlWBLFMMP1i7XH1YQsv5iPYoeiyQfB+Z8/o0OIbWdorM5UD/k8LTqtoQ0GpzAXpFCTKgWRO7I0EhnPh35/EvfHoRzte0NNEbXPdlT9yJYJc0Nu8s1LJtmAuHlu1vTkuzW1rUvy1eOswAkupHrj89Ll896cwFeWjJt2RtcKSoxKbsN7aT5F7J761j8YpKiSXub3lUnjcy9Ep/0Zwpfk0PFN/HfOwJJrh3he0T0e11ahuC/kLaD7KZerntwpmvnD/vRBY1Wy50QJfFUaFV/cJTXFqMv6ClTaYARbKpEuvbiF2B6wTYhxdDWvptlH6gw8DZ+rbk/gU8yo0oj4slVZTb0UT4E7yA65niVG8YEJ1iUkQS1nLwk661okIcVBydawoGGUzSwSAGLRxbDDQGcmjgjGgrTx0QhV7dBtf+Beo31Sv39zWE3mDXtS9d0pLYymGwhPPSNDuvqkvVP3l8avdw51t1qgKzoTThysPMZqEEuNMOcUoGxOyhfo0vWaWkqtk05TiEuDBCf5TjuUhJP25xZjj/RUrCoyzj2ww5uzqq3MfkikurMiVOJZSDXBtJeBYN1j59klVv1CNzziDec5AnIYD7Inr9J8=
+  - secure: r/KhWODIT9I8gexzRQFC7WJcxNKp2ft/noDRDBr0800/sLUPt64cHLgrBgQcOfk5Q9hTNVrj57uM8lmkdBJX1UvW14p+1agwGNfOdKnTEJ7GT+yPiOzo/cYCZ73sW4pYkOYOzrhj6GFFszo7FfVUcp4mP1YnMtw3dPoJlGrSH7iW2LAn3usXOFl148FpdRs420qTALkQK5Wx3yFPu6d5IvxJVqDuoOrugUU3w32aV7L8B634Kd2H+rHZQGGflUX5ouCcY6QaiLB/Qtb4atOITL9TWOFGoNGulK/SdLnOdHFx1xtn7nioiDKEf72ZKDOWmpE0XcO7EXXYsSHpjV8cLMAO3QTtDXPJ7NrVfwgSykp5ahTHhTYI3oQTVuJXBoL06xO5Pfld/pKn2Ub58TBHOYU6fIuWlVSEJxC75wJHdXYKK53bofUfQ791vN/F28d5FWr6Z9UQJ50+XbPSgOfgAOTjrdybpSQUm4uUkCyinlUnyibvjVaABENDGHGIA6gms62iIWaUbKUGJBTTtIerWS7dwrVWQ8VpvHTNlfzBn+Ygjro4moR2/8y1c2gpwqw35SiyFpbxBhU8e5IMA93gP96kk+ik2StF6h65oUly6oLZC1cm+O5VqVKNC4g5ewWLmXF/8xz3tB6ANTtIyZGxOxZLzWrWbwEWV3nlecy209Y=
+  - secure: N0uCtu0zHaglyXtZBPf+dMwrhum5HV/wKXanlGdxrA+caQmAnTJi3OSlq+QuGKmwkAZwspFfFLAaouqGxCZE1wr2xL62VM3BKLOG+lFVQhRBFDkGdlByF+yJNUiHHr2WNAkTlx4QFpNhDYAMYlBQx2kYbjHStJAlyEkJ8lM+7V649FEfx4xAkAZzY4LBruhfm6ec/HBpx7YLqB3UNumD5D+XDlDLq+sFwqilWjMKvu76UBT1IakvavCIMIcIEGiGTLUG3IBfRJGPavedXMsyk2OB9DA4kvVQF3UE7oz+IJqSa5uyYWHK+27vwD+4l6s4vTjtoTa6nlMo5NwrBfdXdhLqeyHbXMrOsLN1SISm8zFh1tCud/tCdWINRxpDxdWI50otVjhucHHCr4vhQ8V7ZAwZfvC8ufYerrHOKJz422PPXTNKfu2qAC0ZtyNS2gFJEq4i5m7ssvOoi1aM/8lnkUoANW0tF9ZkEz63d/rnyLuPE/IWL0uvKaAV5fthTZzWvf/1o6uZQUknVYVPVRtjPVPDeqntU9fcmVxHSEct7zGX8q4sqh3GfjJ32SPe6FiHuD+MWWxLdynUWMSARY+rRct/IiHP+m1siEyVtV/ZignzwLgxfWYda0T4T7T9ZD4EcsoTMJHQ3/sYbooRjP66JHSLsXvwu7O3PvTjf0pzR0w=
+  - MONGO_PREFIX=mongodb+srv://
 jobs:
   include:
   - stage: Build docker images
     before_install:
     - wget -qO- https://toolbelt.heroku.com/install.sh | sh
     before_script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     script:
-    - docker build --target production --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT .
+    - docker build --target production --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT
+      .
     - docker push $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT
-    
     after_success:
     - bash docker_hub_push
     - heroku container:login
@@ -35,10 +49,15 @@ jobs:
     - docker tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT registry.heroku.com/todo-app-devops-july/web
     - docker push registry.heroku.com/todo-app-devops-july/web
     - heroku container:release web --app todo-app-devops-july
-
   - stage: Test
     script:
-    - docker build --target test --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test .
-    - docker run -e SECRET_KEY -e USER_NAME -e PASSWORD -e MONGO_URL -e MONGO_PREFIX -e DEFAULT_DATABASE -e TRELLO_BOARD_ID --mount
-      type=bind,source="$(pwd)"/todo_app,target=/project/todo_app $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test
-
+    - docker build --target test --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test
+      .
+    - docker build --target test --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test_e2e
+      .
+    - docker run -e SECRET_KEY -e USER_NAME -e PASSWORD -e MONGO_URL -e MONGO_PREFIX
+      -e DEFAULT_DATABASE -e TRELLO_BOARD_ID --mount type=bind,source="$(pwd)"/todo_app,target=/project/todo_app
+      $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test
+    - docker run -e SECRET_KEY -e USER_NAME -e PASSWORD -e MONGO_URL -e MONGO_PREFIX
+      -e DEFAULT_DATABASE -e TRELLO_BOARD_ID --mount type=bind,source="$(pwd)"/todo_app,target=/project/todo_app
+      $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test_e2e

@@ -10,9 +10,10 @@ The following must be done before running the Flask App.
 
 Create a text file, `.env`, that must have the following:
 ```
-TRELLO_KEY=<Trello API key>
-TRELLO_TOKEN=<Trello API token>
-TRELLO_BOARD_ID=<Trello board id>
+USER_NAME=<Mongo User Id>
+PASSWORD=<Mongo password>
+MONGO_URL=<Mongo DB Url>
+DEFAULT_DATABASE=<Mongo DB Name>
 ``` 
 The file must reside in the ```todo_app``` folder.
 
