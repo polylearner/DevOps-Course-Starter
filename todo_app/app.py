@@ -1,11 +1,15 @@
+import json
+import os
 from flask_login.login_manager import LoginManager
-from flask_login.utils import login_required
+from flask_login.mixins import UserMixin
+from flask_login.utils import login_required, login_user
 from todo_app.data.mongo_items import Mongo_service
 from todo_app.app_config import Config
 from todo_app.viewmodel import ViewModel
 from flask import Flask, render_template, request, redirect, url_for
-import oauthlib
-
+from oauthlib.oauth2 import WebApplicationClient, OAuth2Token
+import requests
+from todo_app.data.TodoUser import ToDoUser
 from todo_app.data.item import Item
 from werkzeug.debug import DebuggedApplication
 import todo_app.data.mongo_constants as constants
@@ -13,6 +17,10 @@ import todo_app.data.mongo_constants as constants
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config())
+    github_id = os.getenv('GITHUB_CLIENT')
+    github_secret = os.getenv('GITHUB_SECRET')
+
+    client = WebApplicationClient(github_id)
 
     if app.debug:
         app.wsgi_app = DebuggedApplication(app.wsgi_app, evalex=True)
@@ -24,12 +32,13 @@ def create_app():
     login_manager = LoginManager()
     @login_manager.unauthorized_handler
     def unauthenticated():
-        pass # Add logic to redirect to the
-             # Github OAuth flow when unauthenticated
+        uri = 'https://github.com/login/oauth/authorize'
+        redirect_url = client.prepare_request_uri(uri)
+        return redirect(redirect_url)
     
     @login_manager.user_loader
     def load_user(user_id):
-        return None
+            return ToDoUser(id=user_id)
     
     login_manager.init_app(app)
 
@@ -74,6 +83,24 @@ def create_app():
     @login_required 
     def remove_todo(id):
         service.remove_item(id)
+        return redirect(url_for('index'))
+
+    @app.route('/login/')
+    def login():
+        git_code = request.args['code']
+        client = WebApplicationClient(github_id, code=git_code)
+        client.parse_request_uri_response(request.url)
+        body = {
+           "client_id": github_id,
+           "client_secret": github_secret,
+           "code": git_code
+        }
+        response = requests.post('https://github.com/login/oauth/access_token', data=body)
+        client.parse_request_body_response(response.text)
+        user_uri, headers, body = client.add_token("https://api.github.com/user")
+        user_response = requests.get(user_uri, headers=headers).text
+        gitUser = json.loads(user_response)
+        login_user(gitUser["id"])
         return redirect(url_for('index'))
 
     if __name__ == '__main__':
