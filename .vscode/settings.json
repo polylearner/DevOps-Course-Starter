@@ -7,5 +7,5 @@
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
     "python.testing.pytestEnabled": true,
-    "python.pythonPath": ".venv\\Scripts\\python.exe"
+    "python.pythonPath": "%LOCALAPPDATA%\\pypoetry\\Cache\\virtualenvs\\todo-app-to90f7xh-py3.8"
 }

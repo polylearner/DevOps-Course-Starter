@@ -1,18 +1,21 @@
 import json
 import os
+from flask_login import current_user
 from flask_login.login_manager import LoginManager
 from flask_login.mixins import UserMixin
 from flask_login.utils import login_required, login_user
 from todo_app.data.mongo_items import Mongo_service
 from todo_app.app_config import Config
 from todo_app.viewmodel import ViewModel
-from flask import Flask, render_template, request, redirect, url_for
+from todo_app.data.user_role import isReaderRole, isWriterRole
+from flask import Flask, render_template, request, redirect, url_for, g
 from oauthlib.oauth2 import WebApplicationClient, OAuth2Token
 import requests
 from todo_app.data.TodoUser import ToDoUser
 from todo_app.data.item import Item
 from werkzeug.debug import DebuggedApplication
 import todo_app.data.mongo_constants as constants
+from functools import wraps
 
 def create_app():
     app = Flask(__name__)
@@ -59,30 +62,34 @@ def create_app():
     @app.route('/new_todo', methods=['POST'])
     @login_required
     def add_item_from_form():
-        title = request.form['title']
-        service.add_item(title)
+        if isWriterRole(current_user.id):
+            title = request.form['title']
+            service.add_item(title)
+
         return redirect(url_for('index'))
 
     @app.route('/update_todo/<id>', methods=['POST'])
     @login_required
     def update_item(id):
-        item = service.get_item(id)
-        listId = service.get_list_id(constants.TODO_APP_COMPLETED)
-        
-        if request.form.get('done'):
-            item.status= constants.TODO_APP_COMPLETED
-        else:
-            listId = service.get_list_id(constants.TODO_APP_DOING)
-            item.status = constants.TODO_APP_DOING
+        if isWriterRole(current_user.id):
+            item = service.get_item(id)
+            listId = service.get_list_id(constants.TODO_APP_COMPLETED)
             
-        item.listId = listId
-        service.save_item(item)
+            if request.form.get('done'):
+                item.status= constants.TODO_APP_COMPLETED
+            else:
+                listId = service.get_list_id(constants.TODO_APP_DOING)
+                item.status = constants.TODO_APP_DOING
+                
+            item.listId = listId
+            service.save_item(item)
         return redirect(url_for('index'))
 
     @app.route('/remove_todo/<id>', methods=['GET'])
     @login_required 
     def remove_todo(id):
-        service.remove_item(id)
+        if isWriterRole(current_user.id):
+            service.remove_item(id)
         return redirect(url_for('index'))
 
     @app.route('/login/')
@@ -107,3 +114,4 @@ def create_app():
         app.run()
 
     return app
+
