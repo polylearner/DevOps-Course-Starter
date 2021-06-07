@@ -5,13 +5,13 @@
 </div>
 <div class="container">
     <div class="row">
-
+        {% if writer_required %}
         <form class="form-inline" method="post" action="/new_todo">
             <label for="title">To do item: </label>
             <input id="title" class="form-control" type="text" name="title">
             <input class="btn btn-primary" type="submit" name="title" placeholder="Add title" aria-label="Add Title" aria-describedby="addTitle" value="Add to-do">
         </form>
-
+        {% endif %}
     </div>
     <div class="row">
         <div class="col-md-12">

@@ -11,10 +11,12 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-check form-check-inline">
+                                        {% if writer_required %}
                                         <form class="form-inline" method="post" action="/update_todo/{{todo.id}}">
                                             <input class="btn btn-primary btn-sm" type="submit" name="done" value="Completed" placeholder="Done" aria-label="Done" aria-describedby="updateTask" {% if 'Done' == todo.status %} disabled {% endif %}>
                                             <a class="btn btn-danger btn-sm" href="/remove_todo/{{todo.id}}">Delete</a>
                                         </form>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
