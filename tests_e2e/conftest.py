@@ -5,7 +5,7 @@ import pytest
 from threading import Thread
 from selenium import webdriver
 
-from todo_app.data.trello_items import Trello_service
+from todo_app.data.mongo_items import Mongo_service as Service
 from todo_app import app
 from selenium import webdriver
 
@@ -23,10 +23,12 @@ def test_app(driver):
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
     # Create the new board & update the board id environment variable
-    service = Trello_service()
+    service = Service()
+    db_name = 'mmce_corndel_todo_test'
+    test_collection = 'todo_lists'
+    os.environ['DEFAULT_DATABASE'] = db_name
     service.initiate()
-    board_id = service.create_board("E2E Test board")
-    os.environ['TRELLO_BOARD_ID'] = board_id
+    service.create_board(db_name, test_collection)
     # construct the new application
     application = app.create_app()
     # start the app in its own thread.
@@ -36,6 +38,6 @@ def test_app(driver):
     yield app
     # Tear Down
     thread.join(1)
-    service.delete_board(board_id)
+    service.delete_board(name=db_name, collection=test_collection)
 
 

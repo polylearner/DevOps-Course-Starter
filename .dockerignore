@@ -6,7 +6,6 @@
 **/.gitignore
 **/.project
 **/.settings
-**/.toolstarget
 **/.vs
 **/.vscode
 **/*.*proj.user

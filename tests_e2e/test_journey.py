@@ -1,6 +1,5 @@
 from time import sleep
 from selenium.webdriver.common.by import By
-import pytest 
 
 def test_check_title(driver, test_app):
     driver.get('http://localhost:5000/')

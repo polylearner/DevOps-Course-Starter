@@ -1,0 +1,7 @@
+MONGO_IDLIST = "idList"
+MONGO_ID = "_id"
+MONGO_NAME = "name"
+
+TODO_APP_NOT_STARTED = "To Do"
+TODO_APP_COMPLETED = "Done"
+TODO_APP_DOING = "Doing"
