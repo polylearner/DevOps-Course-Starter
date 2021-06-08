@@ -10,11 +10,6 @@ def client():
     with mongomock.patch(servers=(("tst.mongo.test", 27017),)) as mongodb:
         file_path = find_dotenv('.env.test')
         load_dotenv(file_path, override=True)
-        # os.environ['USER_NAME'] ='mmce_devops_sa'
-        # os.environ['PASSWORD'] = 'xxx'
-        # os.environ['MONGO_URL'] = 'tst.mongo.test'
-        # os.environ['MONGO_PREFIX'] = 'mongodb://'
-        # os.environ['DEFAULT_DATABASE']='mmce_corndel_todo_test'
         # Use our test integration config instead of the 'real' version
         # Create the new app.
 

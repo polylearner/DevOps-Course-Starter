@@ -126,3 +126,4 @@ geckodriver.log
 .vscode/settings.json
 .vscode/tasks.json
 chromedriver.exe
+.users_role.json
