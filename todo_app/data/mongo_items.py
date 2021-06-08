@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Collection
 import requests
 import json
 import os
@@ -41,9 +42,13 @@ class Mongo_service(object):
 
         """
         lists = self.db.todo_lists.find({})
+        if( lists.collection.count() == 0):
+            self.insert_todo_lists()
+            lists = self.db.todo_lists.find({})
+
         for list in lists:
             mongoListDict = MongoList(name=list[constants.MONGO_NAME], 
-                                        boardId=list[constants.MONGO_ID_BOARD])
+                                        boardId=list[constants.MONGO_ID])
             self.mongo_lists[list[constants.MONGO_ID]] = mongoListDict
 
     def get_list_id(self, name):
@@ -143,42 +148,32 @@ class Mongo_service(object):
         cards.delete_one({"_id": item.id})
         self.get_items_from_mongo()
     
-    def create_board(self, name):
+    def create_board(self, name, collection):
         """
         Create a board for testing purpose
         """
-        self.db = self.client['mmce_corndel_todo_test']
-        self.db.create_collection('todo_lists')
+        self.db = self.client[name]
+        self.db.create_collection(collection)
+        self.insert_todo_lists()
+
+    def insert_todo_lists(self):
         self.db.todo_lists.insert_many([{
                                         "_id": "60916128ff76116ee04dd66d",
-                                        "id": "5f6456f870c89e025d4cb788",
                                         "name": "To Do",
-                                        "closed": "false",
-                                        "idBoard": "5f6456f8fc414517ed9b0e41",
-                                        "subscribed": "false"
                                         },{
                                         "_id": "60916128ff76116ee04dd66e",
-                                        "id": "5f898ae720d5bc2a631ce2e1",
                                         "name": "Doing",
-                                        "closed": "false",
-                                        "idBoard": "5f6456f8fc414517ed9b0e41",
-                                        "subscribed": "false"
                                         },{
                                         "_id": "60916128ff76116ee04dd66f",
-                                        "id": "5f6456f8536a55223a9ebca0",
                                         "name": "Done",
-                                        "closed": "false",
-                                        "idBoard": "5f6456f8fc414517ed9b0e41",
-                                        "subscribed": "false"
                                         }])
-        return "5f6456f8fc414517ed9b0e41"
 
-    def delete_board(self, id):
+    def delete_board(self, name, collection):
         """
         Delete a board for testing purpose
         """
-        self.db = self.client['mmce_corndel_todo_test']
-        self.db.drop_collection('todo_lists')
+        self.db = self.client[name]
+        self.db.drop_collection(collection)
         self.db.drop_collection('cards')
 
 def sendRequest(verb, url):

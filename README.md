@@ -17,8 +17,6 @@ DEFAULT_DATABASE=<Mongo DB Name>
 ``` 
 The file must reside in the ```todo_app``` folder.
 
-At your Trello, create two boards, 'Not Started'  and 'Completed'.  You will need to use Postman to obtain the board's id.  This id needs to be placed in .env file (see above).
-
 ### Poetry installation (Bash)
 
 ```bash
@@ -46,6 +44,8 @@ $ cp .env.template .env  # (first time only)
 ```
 
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
+
+For e2e testing, you will need to download webdriver for Selenium - for [Chrome Webdriver](https://chromedriver.storage.googleapis.com/index.html).  I would suggest in putting the webdriver in a folder and add it to your PATH environment.
 
 ## Running the App
 

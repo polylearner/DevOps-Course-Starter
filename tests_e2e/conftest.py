@@ -24,10 +24,11 @@ def test_app(driver):
     load_dotenv(file_path, override=True)
     # Create the new board & update the board id environment variable
     service = Service()
-    os.environ['DEFAULT_DATABASE'] = 'mmce_corndel_todo_test'
+    db_name = 'mmce_corndel_todo_test'
+    test_collection = 'todo_lists'
+    os.environ['DEFAULT_DATABASE'] = db_name
     service.initiate()
-    board_id = service.create_board("E2E Test board")
-    os.environ['MONGO_BOARD_ID'] = board_id
+    service.create_board(db_name, test_collection)
     # construct the new application
     application = app.create_app()
     application.config['LOGIN_DISABLED'] = True
@@ -38,6 +39,6 @@ def test_app(driver):
     yield app
     # Tear Down
     thread.join(1)
-    service.delete_board(board_id)
+    service.delete_board(name=db_name, collection=test_collection)
 
 
