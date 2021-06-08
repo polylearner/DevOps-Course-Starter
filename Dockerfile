@@ -24,7 +24,6 @@ RUN poetry install
 CMD ["./docker-entrypoint.sh"]
 
 FROM base as test
-
 COPY .env.test /project/
 COPY /todo_app /project/todo_app
 COPY /tests/ /project/tests/
