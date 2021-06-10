@@ -1,11 +1,22 @@
 from time import sleep
+from unittest import mock
 from selenium.webdriver.common.by import By
+from pytest_mock import mocker
+import todo_app.data.user_role
 
-def test_check_title(driver, test_app):
+def mock_current_user(mocker):
+    #mocker.patch('flask_login.current_user.id', return_value='123456789')
+    mocker.patch('todo_app.data.user_role.isWriterRole', return_value=True)
+
+@mock.patch('flask_login.utils._get_user')
+def test_check_title(mocker, driver, test_app):
+    mock_current_user(mocker)
     driver.get('http://localhost:5000/')
     assert driver.title == 'To-Do App'
 
-def test_add_todo_item(driver, test_app):
+@mock.patch('flask_login.utils._get_user')
+def test_add_todo_item(mocker, driver, test_app):
+    mocker.patch('todo_app.data.user_role.isWriterRole', return_value=True)
     driver.get('http://localhost:5000/')
     text = "Test 1 To Do Item"
 
@@ -17,7 +28,9 @@ def test_add_todo_item(driver, test_app):
  
     assert newToDoItem[0].text == text
 
-def test_change_todo_item_doing(driver, test_app):
+@mock.patch('flask_login.utils._get_user')
+def test_change_todo_item_doing(mocker, driver, test_app):
+    mock_current_user(mocker)
     driver.get('http://localhost:5000/')
     text = "Test 2 To Do Item"
     populateTitleInputElement(driver, text)
@@ -29,7 +42,9 @@ def test_change_todo_item_doing(driver, test_app):
 
     assert doingToDoItem[0].text == 'Doing'
 
-def test_change_todo_item_done(driver, test_app):
+@mock.patch('flask_login.utils._get_user')
+def test_change_todo_item_done(mocker, driver, test_app):
+    mock_current_user(mocker)
     driver.get('http://localhost:5000/')
     text = "Test 3 To Do Item"
     populateTitleInputElement(driver, text)
