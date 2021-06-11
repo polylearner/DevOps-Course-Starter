@@ -7,3 +7,6 @@ class Config:
         raise ValueError("No SECRET_KEY set for Flask application. Did you follow the setup instructions?")
 
     """Base configuration variables."""
+    LOGIN_DISABLED = os.environ.get("LOGIN_DISABLED")
+    if not LOGIN_DISABLED:
+        raise ValueError("No LOGIN_DISABLED set for Flask application. Did you follow the setup instructions?")

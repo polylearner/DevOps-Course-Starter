@@ -14,6 +14,9 @@ USER_NAME=<Mongo User Id>
 PASSWORD=<Mongo password>
 MONGO_URL=<Mongo DB Url>
 DEFAULT_DATABASE=<Mongo DB Name>
+GITHUB_CLIENT_ID=<client id>
+GITHUB_SECRET=<GitHub secret>
+USERS_ROLE=<json file>
 ``` 
 The file must reside in the ```todo_app``` folder.
 

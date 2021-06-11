@@ -30,6 +30,7 @@ def create_app():
         service.initiate()
     
     login_manager = LoginManager()
+    
     @login_manager.unauthorized_handler
     def unauthenticated():
         uri = 'https://github.com/login/oauth/authorize'
@@ -53,8 +54,13 @@ def create_app():
         elif sort == "desc":
             todos = sorted(todos, key=lambda k: k.status, reverse=True)
 
+        if app.config.get('LOGIN_DISABLED'):
+            roleIsWriter = True
+        else:
+            roleIsWriter = isWriterRole(current_user.id)
+
         item_view_model = ViewModel(todos)
-        return render_template('index.html', view_model = item_view_model, writer_required = isWriterRole(current_user.id))
+        return render_template('index.html', view_model = item_view_model, writer_required = roleIsWriter)
 
     @app.route('/new_todo', methods=['POST'])
     @login_required

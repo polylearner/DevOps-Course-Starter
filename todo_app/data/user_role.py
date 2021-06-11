@@ -30,7 +30,8 @@ def getUsersRole():
 def writer_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not isWriterRole(current_user.id):
-            return redirect(url_for('index', next=request.url))
+        if bool(os.environ.get('LOGIN_DISABLED')) != True:
+            if not isWriterRole(current_user.id):
+                return redirect(url_for('index', next=request.url))
         return f(*args, **kwargs)
     return decorated_function
