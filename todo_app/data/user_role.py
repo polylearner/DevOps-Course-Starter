@@ -5,14 +5,6 @@ from functools import wraps
 from flask_login import current_user
 from flask import request, redirect, url_for
 
-def isReaderRole(userId):
-    for user in getUsersRole():
-        if user['id'] == userId:
-            if user['role'] == 'reader':
-                return True
-
-    return False
-
 def isWriterRole(userId):
     for user in getUsersRole():
         if user['id'] == userId:
@@ -30,7 +22,7 @@ def getUsersRole():
 def writer_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if bool(os.environ.get('LOGIN_DISABLED')) != True:
+        if not os.environ.get('LOGIN_DISABLED'):
             if not isWriterRole(current_user.id):
                 return redirect(url_for('index', next=request.url))
         return f(*args, **kwargs)

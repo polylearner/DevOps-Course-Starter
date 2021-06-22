@@ -60,7 +60,7 @@ def create_app():
             roleIsWriter = isWriterRole(current_user.id)
 
         item_view_model = ViewModel(todos)
-        return render_template('index.html', view_model = item_view_model, writer_required = roleIsWriter)
+        return render_template('index.html', view_model = item_view_model, user_is_writer = roleIsWriter)
 
     @app.route('/new_todo', methods=['POST'])
     @login_required

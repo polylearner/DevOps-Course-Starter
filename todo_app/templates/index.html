@@ -5,7 +5,7 @@
 </div>
 <div class="container">
     <div class="row">
-        {% if writer_required %}
+        {% if user_is_writer %}
         <form class="form-inline" method="post" action="/new_todo">
             <label for="title">To do item: </label>
             <input id="title" class="form-control" type="text" name="title">

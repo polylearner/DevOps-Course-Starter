@@ -11,7 +11,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-check form-check-inline">
-                                        {% if writer_required %}
+                                        {% if user_is_writer %}
                                         <form class="form-inline" method="post" action="/update_todo/{{todo.id}}">
                                             <input class="btn btn-primary btn-sm" type="submit" name="doing" value="Doing" placeholder="Doing" aria-label="Doing" aria-describedby="updateTask" {% if 'Done' == todo.status %} disabled {% endif %}>
                                             <a class="btn btn-danger btn-sm" href="/remove_todo/{{todo.id}}">Delete</a>
