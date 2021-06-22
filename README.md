@@ -14,6 +14,9 @@ USER_NAME=<Mongo User Id>
 PASSWORD=<Mongo password>
 MONGO_URL=<Mongo DB Url>
 DEFAULT_DATABASE=<Mongo DB Name>
+GITHUB_CLIENT_ID=<client id>
+GITHUB_SECRET=<GitHub secret>
+USERS_ROLE=<json file>
 ``` 
 The file must reside in the ```todo_app``` folder.
 
@@ -46,6 +49,23 @@ $ cp .env.template .env  # (first time only)
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
 
 For e2e testing, you will need to download webdriver for Selenium - for [Chrome Webdriver](https://chromedriver.storage.googleapis.com/index.html).  I would suggest in putting the webdriver in a folder and add it to your PATH environment.
+
+## Authentication
+We are using GitHub OAuth2 for authentication so you will need to have an account there. Please follow the Github [documentation](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app) to create your oauth app.
+
+For the callback add a particular path to this URL for example /login/ callback.
+
+You will need both a client-id and client-secret for your .env file (respectively `GITHUB_CLIENT_ID=<client id>`, `GITHUB_SECRET=<GitHub secret>`).
+
+NOTE: The client-secret once generated will only be shown once, so take a note of it to avoid needing to regenerate one later.
+
+### Authorised users
+To give a user permission to manage ToApps, you will need to obtain their id by using this REST API (https://api.github.com/users/<user name>`)
+```json
+[
+    {"id": "<github id>", "role": "writer"}
+]
+```
 
 ## Running the App
 
@@ -118,10 +138,19 @@ In a console, run this command:
 ```powershell
 docker build --target test --tag todo-app:test .
 ```
-
 ```powershell
 docker run --env-file .\.env --mount type=bind,source="$(pwd)"/todo_app,target=/project/todo_app todo-app:test
 ```
+
+For end-to-end testing:
+```powershell
+docker build --target test_e2e --tag todo-app:test_e2e .
+```
+
+```powershell
+docker run --env-file .\.env --mount type=bind,source="$(pwd)"/todo_app,target=/project/todo_app todo-app:test_e2e
+```
+
 You might expect to find the output:
 ```
 ============================= test session starts ==============================
@@ -142,16 +171,17 @@ For CI, this project comes a configuration YAML file for Travis CI.  You will ne
 
 The YAML file will need to be amended for the following:
 * SECRET_KEY
-* TRELLO_KEY
-* TRELLO_TOKEN
-* TRELLO_BOARD_ID
 * DOCKER_PASSWORD
-
+* USER_NAME
+* PASSWORD
+* MONGO_URL
+* DEFAULT_DATABASE
+ 
 You can see they are from your .env file. Please remove any entry in the YAML file beginning with `-secure ...` in the `env` -> `global` section.  You must encrypt your values with Travis CLI (see [Encryption Keys - Usage](https://docs.travis-ci.com/user/encryption-keys#usage)).  **Note** on Docker's password - please use your generated API token, not the actual password!
 
 For CD, the Travis YML configuration file uses Heroku Application platform - see [Heroku Sign up](https://id.heroku.com/signup/)
 
 You will need to install/use Heroku CLI to do some configuration for values from your `.env` file such as:
 
-``heroku config:set `cat .env | grep TRELLO_KEY` ``
+``heroku config:set `cat .env | grep MONGO_URL` ``
 
