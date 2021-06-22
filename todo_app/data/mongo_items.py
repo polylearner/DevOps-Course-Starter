@@ -19,7 +19,8 @@ class Mongo_service(object):
                 'password': os.getenv('PASSWORD'),
                 'mongo_url': os.getenv('MONGO_URL'),
                 'default_db': os.getenv('DEFAULT_DATABASE'),
-                'mongo_prefix': os.getenv('MONGO_PREFIX')}
+                'mongo_prefix': os.getenv('MONGO_PREFIX'),
+                'mongo_config': os.getenv('MONGO_CONFIG')}
 
     def initiate(self):
         self.mongo_lists = {}
@@ -32,7 +33,9 @@ class Mongo_service(object):
         mongo_url = mongo_config ['mongo_url']
         mongo_db = mongo_config ['default_db']
         mongo_prefix = mongo_config ['mongo_prefix']
-        mongo_client = pymongo.MongoClient(f"{mongo_prefix}{mongo_user}:{mongo_password}@{mongo_url}/{mongo_db}?retryWrites=true&w=majority")
+        mongo_cfg = mongo_config ['mongo_config']
+        mongo_connection_string = f"{mongo_prefix}{mongo_user}:{mongo_password}@{mongo_user}.{mongo_url}/{mongo_db}{mongo_cfg}"
+        mongo_client = pymongo.MongoClient(mongo_connection_string)
         self.client = mongo_client
         self.db = mongo_client[f'{mongo_db}']
 
