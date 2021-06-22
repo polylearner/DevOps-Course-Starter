@@ -50,6 +50,23 @@ The `.env` file is used by flask to set environment variables when running `flas
 
 For e2e testing, you will need to download webdriver for Selenium - for [Chrome Webdriver](https://chromedriver.storage.googleapis.com/index.html).  I would suggest in putting the webdriver in a folder and add it to your PATH environment.
 
+## Authentication
+We are using GitHub OAuth2 for authentication so you will need to have an account there. Please follow the Github [documentation](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app) to create your oauth app.
+
+For the callback add a particular path to this URL for example /login/ callback.
+
+You will need both a client-id and client-secret for your .env file (respectively `GITHUB_CLIENT_ID=<client id>`, `GITHUB_SECRET=<GitHub secret>`).
+
+NOTE: The client-secret once generated will only be shown once, so take a note of it to avoid needing to regenerate one later.
+
+### Authorised users
+To give a user permission to manage ToApps, you will need to obtain their id by using this REST API (https://api.github.com/users/<user name>`)
+```json
+[
+    {"id": "<github id>", "role": "writer"}
+]
+```
+
 ## Running the App
 
 Once the all dependencies have been installed, start the Flask app in development mode within the poetry environment by running:
@@ -121,10 +138,19 @@ In a console, run this command:
 ```powershell
 docker build --target test --tag todo-app:test .
 ```
-
 ```powershell
 docker run --env-file .\.env --mount type=bind,source="$(pwd)"/todo_app,target=/project/todo_app todo-app:test
 ```
+
+For end-to-end testing:
+```powershell
+docker build --target test_e2e --tag todo-app:test_e2e .
+```
+
+```powershell
+docker run --env-file .\.env --mount type=bind,source="$(pwd)"/todo_app,target=/project/todo_app todo-app:test_e2e
+```
+
 You might expect to find the output:
 ```
 ============================= test session starts ==============================
