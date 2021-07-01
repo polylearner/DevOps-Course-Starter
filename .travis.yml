@@ -26,10 +26,11 @@ jobs:
     before_script:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     script:
-    - docker build --target production --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT .
-    - docker push $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT
+    - docker build --target production --tag $DOCKER_USERNAME/todo-app:latest .
+    - docker push $DOCKER_USERNAME/todo-app:latest
     deploy:
-    - curl -dH -X POST $AZURE_WEBHOOK
+      script:
+      - curl -dH -X POST $AZURE_WEBHOOK
   - stage: Test
     script:
     - docker build --target test --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test
