@@ -28,6 +28,8 @@ jobs:
       provider: script
       script:
       - curl -dH -X POST $AZURE_WEBHOOK
+      on:
+        all_branches: true
   - stage: Test
     script:
     - docker build --target test --tag $DOCKER_USERNAME/todo-app:$TRAVIS_COMMIT-test .
