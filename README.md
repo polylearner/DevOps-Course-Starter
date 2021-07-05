@@ -179,9 +179,5 @@ The YAML file will need to be amended for the following:
  
 You can see they are from your .env file. Please remove any entry in the YAML file beginning with `-secure ...` in the `env` -> `global` section.  You must encrypt your values with Travis CLI (see [Encryption Keys - Usage](https://docs.travis-ci.com/user/encryption-keys#usage)).  **Note** on Docker's password - please use your generated API token, not the actual password!
 
-For CD, the Travis YML configuration file uses Heroku Application platform - see [Heroku Sign up](https://id.heroku.com/signup/)
 
-You will need to install/use Heroku CLI to do some configuration for values from your `.env` file such as:
-
-``heroku config:set `cat .env | grep MONGO_URL` ``
 
