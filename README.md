@@ -10,13 +10,19 @@ The following must be done before running the Flask App.
 
 Create a text file, `.env`, that must have the following:
 ```
+FLASK_APP=<default: todo_app/app>
+FLASK_ENV=<default: development>
 USER_NAME=<Mongo User Id>
 PASSWORD=<Mongo password>
 MONGO_URL=<Mongo DB Url>
 DEFAULT_DATABASE=<Mongo DB Name>
+MONGO_PREFIX=<Prefix>
+MONGO_CONFIG=<Configuration string>
 GITHUB_CLIENT_ID=<client id>
 GITHUB_SECRET=<GitHub secret>
 USERS_ROLE=<json file>
+OAUTHLIB_INSECURE_TRANSPORT=<use the value of 1 for development>
+LOGIN_DISABLED=<use False for development>
 ``` 
 The file must reside in the ```todo_app``` folder.
 
@@ -57,7 +63,7 @@ For the callback add a particular path to this URL for example /login/ callback.
 
 You will need both a client-id and client-secret for your .env file (respectively `GITHUB_CLIENT_ID=<client id>`, `GITHUB_SECRET=<GitHub secret>`).
 
-NOTE: The client-secret once generated will only be shown once, so take a note of it to avoid needing to regenerate one later.
+NOTE: The client-secret once generated will only be shown once, so take a note of it to avoid needing to regenerate one later.  If you are doing development and do not want to use Authentication, then set LOGIN_DISABLED to False and OAUTH_INSECURE_TRANSPORT to 1 in your `.env` file
 
 ### Authorised users
 To give a user permission to manage ToApps, you will need to obtain their id by using this REST API (https://api.github.com/users/<user name>`)
@@ -166,18 +172,85 @@ tests_e2e/test_journey.py  * Serving Flask app "todo_app.app" (lazy loading)
 ....                                           [100%]
 ```
 
-## Continuous Integration (CI) and Continuous Delivery (CD)
+## Continuous Integration (CI)
 For CI, this project comes a configuration YAML file for Travis CI.  You will need to have an account with Travis (please visit by clicking here [Travis CI](https://travis-ci.com/signup)).  Please refer to their documentation for use.  You will need to associate your GitHub account to access this project.
 
-The YAML file will need to be amended for the following:
-* SECRET_KEY
-* DOCKER_PASSWORD
+In Travis' setting, you must add the following:
 * USER_NAME
 * PASSWORD
 * MONGO_URL
 * DEFAULT_DATABASE
+* MONGO_CONFIG
+
+Travis will obfuscate the value for each variable; and you will not be able to see them (even in its logs) once you've added them!  
+
+The YAML file will need to be amended for the following:
+* SECRET_KEY
+* DOCKER_PASSWORD
  
 You can see they are from your .env file. Please remove any entry in the YAML file beginning with `-secure ...` in the `env` -> `global` section.  You must encrypt your values with Travis CLI (see [Encryption Keys - Usage](https://docs.travis-ci.com/user/encryption-keys#usage)).  **Note** on Docker's password - please use your generated API token, not the actual password!
 
+## Continuous Delivery (CD)
 
+For Azure, it is assumed that you have a account setup.  We are using CosmosDB and App Service. You can use its Portal or CLI to setup the above services. The following is the required step. 
 
+### Set up a resource group 
+You can navigate, in Portal, to Resource Groups and click the create link.
+
+```dotnetcli
+az group create -l uksouth -n <resource_group_name> 
+```
+
+### Set up a CosmosDB
+In Portal, go to CosmsoDB and click new.  Select the option `Azure Cosmos DB for MongoDB API`
+
+```dotnetcli
+az cosmosdb create --name <cosmos_account_name> --resourcegroup <resource_group_name> --kind MongoDB
+
+az cosmosdb mongodb database create --account-name <cosmos_account_name> --name <database_name> --resourcegroup
+<resource_group_name>
+```
+
+When this is setup, go to the Connection String page in Portal or
+
+```dotnetcli
+az cosmosdb keys list -n <cosmos_account_name> -g <resource_group_name> --type connection-strings
+```
+
+### Setup an App Services
+
+In portal, create a App Service and please ensure that you use Docker Container in the 'Publish' field.  As well as entering your image name in 'Image Source' field.
+
+```dotnetcli
+az appservice plan create --resource-group <resource_group_name> -n <appservice_plan_name> --sku Free --is-linux
+
+az webapp create --resource-group <resource_group_name> --plan <appservice_plan_name> --name <webapp_name> --deployment-container-image-name <dockerhub_username>/todoapp:latest
+```
+
+Set up the environment variables in the App Services' Settings -> Configuration
+
+```dotnetcli
+az webapp config appsettings set -g <resource_group_name> -n <webapp_name> --settings FLASK_APP=todo_app/app.
+```
+
+Browse to `http://<webapp_name>.azurewebsites.net/` to check that your application works!
+
+In App Services' Deployment Centre - enable the flag 'Enable CD'
+```dotnetcli
+az webapp deployment container config --enable-cd true --resource-group <resource_group_name> --name <webapp_name>
+```
+
+The page contains a field for Webhook - click on the 'eye' icon to reveal the URL.  You can test this in Postman or use CURL:
+```dotnetcli
+curl -dH -X POST "https://\$<deployment_username>:<deployment_password>@<webapp_name>.scm.azurewebsites.net/docker/hook"
+```
+Use this URL in your Travis's deploy section:
+
+```yml
+    deploy:
+      provider: script
+      script:
+      - curl -dH -X POST '$AZURE_WEBHOOK'
+      on:
+        all_branches: true
+```
